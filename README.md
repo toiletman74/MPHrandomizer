@@ -13,10 +13,10 @@ This is my attemp at making a randomizer for Metroid Prime Hunters on Nintendo d
 
 You will need a program that can unpack and repack nds roms
 I personally use dslazy
- 1st unpack a fresh MetroidPrimeHunters rev1 USA rom using dslazy. (I'm not sure if the addresses for the entity files are the same for the other versions of the game so just stick with this version)
- 2nd open up MPHrando and click select entities folder, then open up the folder with dslazy in it and navigate to \dslazy\NDS_UNPACK\data\levels this is where the entities folder will be located, select it.
- 3rd press randomize.
- 4th open up dslazy again if you closed it and click ndspacker.
+ 1. unpack a fresh MetroidPrimeHunters rev1 USA rom using dslazy. (I'm not sure if the addresses for the entity files are the same for the other versions of the game so just stick with this version)
+ 2. open up MPHrando and click select entities folder, then open up the folder with dslazy in it and navigate to \dslazy\NDS_UNPACK\data\levels this is where the entities folder will be located, select it.
+ 3. press randomize.
+ 4. open up dslazy again if you closed it and click ndspacker.
  And thats it!
  
  # Special thanks
