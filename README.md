@@ -1,6 +1,8 @@
 # MPHrandomizer
 This is my attemp at making a randomizer for Metroid Prime Hunters on Nintendo ds.
 
+Grab a fresh copy from the releases on the right!
+
 # Things to note
 
 1. This is still very early in development so there's gonna be bugs
