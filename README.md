@@ -1,7 +1,7 @@
 # MPHrandomizer
 This is my attemp at making a randomizer for Metroid Prime Hunters on Nintendo ds.
 
-#Things to note
+# Things to note
 
 1. This is still very early in development so there's gonna be bugs
 2. The program will crash if you click randomize and then without closing the window clicking randomize again
@@ -9,7 +9,7 @@ This is my attemp at making a randomizer for Metroid Prime Hunters on Nintendo d
 4. It is in logic right now to do bomb jumps in the incubation vaults so your first beam can be placed in incubation vault 02 or 03
 5. I will eventually make the randomizer unpack and repack the rom on it's own
 
-#How to use
+# How to use
 
 You will need a program that can unpack and repack nds roms
 I personally use dslazy
@@ -19,5 +19,11 @@ I personally use dslazy
  4th open up dslazy again if you closed it and click ndspacker.
  And thats it!
  
- #Special thanks
+ # Special thanks
  Special thanks to nonegiven and unknown for their work on **[MPHread](https://github.com/NoneGiven/MphRead)** without that I wouldn't have been able to figure out how to change items
+
+# If you need help or just wanna give me some feedback
+Feel free to dm me on discord shidr#6107
+I would love to hear about how you feel about item placement or ideas for features to be added
+
+# Enjoy!
