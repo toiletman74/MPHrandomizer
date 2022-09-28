@@ -1,0 +1,35 @@
+Seed: 1878195686
+AEchoHall: 5
+ARCSicTransit: 8
+CADataShrine02MissileExpansion: 10
+ARCFrostLabyrinth: 11
+ARCSanctorus: 7
+ARCDripMoat: 9
+ACouncilChamberEtankLocation: 4
+OGoreaPeek: 4
+CADataIncubationVault03: 4
+AAlinosGateway: 4
+AHighGround: 4
+AAlinosPerch: 4
+VDOCortexCPUMissileExpansion: 4
+VDOFuelStack: 6
+ARCIceHiveMissileExpansion: 18
+ARCSubterranean: 6
+CACelestialGateway: 18
+CANewArrivalRegistration: 6
+VDOStaisBunker: 18
+CADataShrine02UAE: 6
+ArcIceHiveBeamLocation: 18
+CADockingBay: 6
+CATransferLock: 18
+AMagmaDrop: 6
+CADataShrine02BeamLocation: 18
+AProcessorCore: 6
+ARCIceHiveUAE *cubbie*: 18
+VDOCompressionChamber: 6
+ARCIceHiveUAE *WaspRooom*: 18
+VDOCortexCPUBeamLocation: 6
+CAIncubationVault02: 18
+ACouncilChamberBeamLocation: 18
+ARCFaultLine: 18
+CADataShrine01: 18
