@@ -5,8 +5,6 @@ Grab a fresh copy from the releases on the right!
 
 # Things to note
 
-Important!! Theres a bug in logic right now that causes unbeatable seeds, if the game gives you magmaul and expects you to go through the magmaul door in sic transit without giving you judicator you'll be softlocked because there's a forcefield infront of the door that only disappears when slench v2 is defeated but it is impossible to get to slench v2 without the judicator. This has been fixed and an update will be posted here either on 29/9/22 or 30/9/22 after testing. Sorry about that!
-
 1. This is still very early in development so there's gonna be bugs
 2. The program will crash if you click randomize and then without closing the window click randomize again
 3. Don't put letters in the Seed entry box, it will crash
