@@ -10,7 +10,7 @@ Important!! Theres a bug in logic right now that causes unbeatable seeds, if the
 1. This is still very early in development so there's gonna be bugs
 2. The program will crash if you click randomize and then without closing the window click randomize again
 3. Don't put letters in the Seed entry box, it will crash
-4. It is in logic right now to do bomb jumps in the incubation vaults so your first beam can be placed in incubation vault 02 or 03
+4. It is in logic right now to do bomb jumps in the incubation vaults so your second beam after volt driver could be placed in incubation vault 02 or 03
 5. I will eventually make the randomizer unpack and repack the rom on it's own
 6. If loading up the rom on twilight menu on the 3ds and a red screen shows up repack the rom with dslazy (idk why but sometimes the 3ds doesn't like the rom)
 
