@@ -99,6 +99,12 @@ namespace MPHrandomizer
                     spoilerLog.WriteLine(logEntry);
                 }
             }
+            string fullPath = FilePath.pathEntityFldr + "\\unit4_rm3_Ent.bin";
+            FileStream ws = new FileStream(fullPath, FileMode.Open, FileAccess.Write);
+            StreamWriter writeStream = new StreamWriter(ws);
+            writeStream.BaseStream.Seek(20316, SeekOrigin.Current);
+            writeStream.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+            writeStream.Close();
             RollBeams();
         }
 
