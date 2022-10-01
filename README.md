@@ -6,9 +6,9 @@ Grab a fresh copy from the releases on the right!
 # How to Use
 
 You will need a program that can unpack and repack nds roms.
-I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**
- 1. Unpack a Metroid Prime Hunters Rev1 USA rom using dslazy. (I'm not sure if the addresses for the entity files are the same for the other versions of the game, so just stick with Rev1)
- 2. Open up MPHrando and click "Select your entities folder", then browse to your unpacked rom. Select the "entities" folder in data\levels.
+
+ 1. Unpack a Metroid Prime Hunters Rev1 USA rom. I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**.  The addresses for these entity files might be the same across different MPH releases, but for now I'm sticking with Rev1 until I find out.
+ 2. Open up MPHrando and click "Browse for entities folder", then navigate to your unpacked rom. Select the "entities" folder in data\levels.
  3. Enter a seed value.
  4. Press randomize.
  5. Repack your MPH rom.
