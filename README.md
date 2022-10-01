@@ -3,16 +3,7 @@ This is my attempt at making a randomizer for Metroid Prime Hunters on Nintendo 
 
 Grab a fresh copy from the releases on the right!
 
-# Things to note
-
-1. This is still very early in development, so there will be bugs.
-2. The program will crash if you click randomize and then without closing the window click randomize again
-3. Don't put non-number characters in the Seed entry box, that currently causes a crash.
-4. It is in logic right now to do bomb jumps in the incubation vaults so your second beam after volt driver could be placed in incubation vault 02 or 03
-5. I will eventually make the randomizer unpack and repack the rom on it's own
-7. If you boot to a red screen when using TwilightMenu on 3DS, repack the rom and try again.  I don't know why the 3DS doesn't like the rom sometimes.
-
-# How to use
+# How to Use
 
 You will need a program that can unpack and repack nds roms.
 I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**
@@ -24,6 +15,16 @@ I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**
  And thats it!
  
  If you need help, I made a **[video](https://www.youtube.com/watch?v=J4i4qoCch90)** showing the instructions.
+
+# Things to note
+
+1. This is still very early in development, so there will be bugs.
+2. The program will crash if you click randomize and then without closing the window click randomize again
+3. Don't put non-number characters in the Seed entry box, that currently causes a crash.
+4. It is in logic right now to do bomb jumps in the incubation vaults. This means that your second beam after Volt Driver could be placed in Incubation Vault 02 or 03.
+5. I will eventually make the randomizer unpack and repack the rom on it's own.
+7. If you boot to a red screen when using TwilightMenu on 3DS, repack the rom and try again.  I don't know why the 3DS doesn't like the rom sometimes.
+
  
  # Special Thanks
  Special thanks to NoneGiven and unknown for their work on **[MPHread](https://github.com/NoneGiven/MphRead)** without that I wouldn't have been able to figure out how to change items
