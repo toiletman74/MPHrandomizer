@@ -36,11 +36,15 @@ namespace MPHrandomizer
         int beamsToPlace;
         int[] beamToPlace = new int[] {0,0,0,0,0,0,0};
         int[] locationHasItem = new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        int[] locationWasExcluded = new int[] {0,0,0,0};
+        int[] locationExcluded = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
         int randomnum;
         bool hasRolled;
         bool hasRolledBeam;
         bool hasRolledItem;
+        bool rollingBeams;
         int seed;
+        Random rnd = new Random();
 
         public MainWindow()
         {
@@ -64,6 +68,7 @@ namespace MPHrandomizer
             if (seed_txtbox.Text != "")
             {
             seed = Int32.Parse(seed_txtbox.Text);
+            Random rnd = new Random(seed);
             }
             else
             {
@@ -83,22 +88,23 @@ namespace MPHrandomizer
             {
                 locationHasItem[i] = 0;
             }
-            if (spoiler_chkbox.IsChecked ?? true)
-            {
+            //if (spoiler_chkbox.IsChecked ?? true)
+            //{
                 if (File.Exists(System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt"))
                 {
                     File.Delete(System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt");
                 }
-            }
+            //}
             string spoilerLogPath = System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt";
             string logEntry = "Seed: " + Convert.ToString(seed);
-            if (spoiler_chkbox.IsChecked ?? true)
-            {
+            //if (spoiler_chkbox.IsChecked ?? true)
+            //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
                     spoilerLog.WriteLine(logEntry);
                 }
-            }
+            //}
+            //this is the sic transit magmaul barrier patch
             string fullPath = FilePath.pathEntityFldr + "\\unit4_rm3_Ent.bin";
             FileStream ws = new FileStream(fullPath, FileMode.Open, FileAccess.Write);
             StreamWriter writeStream = new StreamWriter(ws);
@@ -163,10 +169,18 @@ namespace MPHrandomizer
             int ran = 0;
             while (beamsToPlace > 0)
             {
+                if (rollingBeams != true)
+                {
+                    rollingBeams = true;
+                }
                 hasRolled = false;
                 if (hasRolledBeam == false)
                 {
-                ran = RandomNumberGenerator(6);
+                    ran = RandomNumberGenerator(6);
+                    if (beamsToPlace == 5)
+                    {
+                        LocationExclude();
+                    }
                 }
                 else
                 { ran++; }
@@ -239,6 +253,8 @@ namespace MPHrandomizer
             }
             if (beamsToPlace == 0)
             {
+                FixExclusions();
+                rollingBeams = false;
                 RollItems();
             }
         }
@@ -512,7 +528,7 @@ namespace MPHrandomizer
                     break;
                 case 18:
                     //AAlinosPerch
-                    if (locationHasItem[18] != 1 && (beamToPlace[4] != 0))
+                    if (locationHasItem[18] != 1 && (beamToPlace[4] != 0 && beamToPlace[5] != 0))
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit1_RM2_Ent.bin";
@@ -774,7 +790,6 @@ namespace MPHrandomizer
 
         public int RandomNumberGenerator(int maxnum)
         {
-            Random rnd = new Random(seed);
             int ran = rnd.Next(1, maxnum);
             seed = ran;
             return ran;
@@ -785,13 +800,13 @@ namespace MPHrandomizer
             string fullPath = FilePath.pathEntityFldr + FilePath.fileName;
             string spoilerLogPath = System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt";
             string logEntry = spoil + ": " + item.ToString();
-            if (spoiler_chkbox.IsChecked ?? true)
-            {
+            //if (spoiler_chkbox.IsChecked ?? true)
+            //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
                     spoilerLog.WriteLine(logEntry);
                 }
-            }
+            //}
             textblock.Text = "Wrote to: " + fullPath;
             //these two lines set up the writing
             FileStream ws = new FileStream(fullPath, FileMode.Open, FileAccess.Write);
@@ -840,6 +855,116 @@ namespace MPHrandomizer
             }
             writeStream.BaseStream.Write(valueIn, 0, 1);
             writeStream.Close();
+        }
+
+        public void LocationExclude()
+        {
+            bool hasrolled = false;
+            int ran = 0;
+            int locationExcludedNum = 5;
+            while (locationExcludedNum != 0)
+            {
+                if (hasrolled == false){
+                    ran = RandomNumberGenerator(7);
+                }
+                hasrolled = false;
+                if (locationHasItem[ran] != 1)
+                {
+                    if (locationExcluded[ran] != 1)
+                    {
+                        switch (ran)
+                        {
+                        case 1:
+                            locationHasItem[7] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        case 2:
+                            locationHasItem[9] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        case 3:
+                            locationHasItem[11] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        case 4:
+                            locationHasItem[14] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        case 5:
+                            locationHasItem[16] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        case 6:
+                            locationHasItem[17] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        case 7:
+                            locationHasItem[19] = 1;
+                            locationExcluded[ran] = 1;
+                            locationExcludedNum--;
+                            break;
+                        }
+                    }
+                    else if (ran != 7)
+                    {
+                        ran++;
+                        hasrolled = true;
+                    }
+                    else
+                    {
+                        ran = 1;
+                        hasrolled = true;
+                    }
+                }
+                else if (ran != 7)
+                { 
+                    ran++;
+                    hasrolled = true;
+                }
+                else 
+                {
+                    ran = 1;
+                    hasrolled = true;
+                }
+            }
+        }
+
+        public void FixExclusions()
+        {
+            if (locationExcluded[1] == 1)
+            {
+                locationHasItem[7] = 0;
+            }
+            if (locationExcluded[2] == 1)
+            {
+                locationHasItem[9] = 0;
+            }
+            if (locationExcluded[3] == 1)
+            {
+                locationHasItem[11] = 0;
+            }
+            if (locationExcluded[4] == 1)
+            {
+                locationHasItem[14] = 0;
+            }
+            if (locationExcluded[5] == 1)
+            {
+                locationHasItem[16] = 0;
+            }
+            if (locationExcluded[6] == 1)
+            {
+                locationHasItem[17] = 0;
+            }
+            if (locationExcluded[7] == 1)
+            {
+                locationHasItem[19] = 0;
+            }
         }
     }
 }

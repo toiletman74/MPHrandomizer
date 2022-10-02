@@ -1,0 +1,16 @@
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\bin\Release\MPHrando.exe.config
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\bin\Release\MPHrando.exe
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\bin\Release\MPHrando.pdb
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.csproj.AssemblyReference.cache
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.csproj.SuggestedBindingRedirects.cache
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MainWindow.g.cs
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\App.g.cs
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando_MarkupCompile.cache
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando_MarkupCompile.lref
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MainWindow.baml
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.g.resources
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.Properties.Resources.resources
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.csproj.GenerateResource.cache
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.csproj.CoreCompileInputs.cache
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.exe
+C:\Users\Lenka\source\repos\MPHrando\MPHrando\obj\Release\MPHrando.pdb
