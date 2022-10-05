@@ -67,8 +67,7 @@ namespace MPHrandomizer
         {
             if (seed_txtbox.Text != "")
             {
-            seed = Int32.Parse(seed_txtbox.Text);
-            Random rnd = new Random(seed);
+                seed = Int32.Parse(seed_txtbox.Text);
             }
             else
             {
@@ -790,8 +789,8 @@ namespace MPHrandomizer
 
         public int RandomNumberGenerator(int maxnum)
         {
+            Random rnd = new Random(seed);
             int ran = rnd.Next(1, maxnum);
-            seed = ran;
             return ran;
         }
 
