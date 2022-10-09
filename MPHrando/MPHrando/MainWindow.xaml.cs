@@ -29,6 +29,8 @@ namespace MPHrandomizer
     {
         byte[] valueIn = new byte[] {};
         int location;
+        int address;
+        int Planet;
         int itemsToPlace;
         int missilesToPlace;
         int etankToPlace;
@@ -36,8 +38,10 @@ namespace MPHrandomizer
         int beamsToPlace;
         int[] beamToPlace = new int[] {0,0,0,0,0,0,0};
         int[] locationHasItem = new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-        int[] locationWasExcluded = new int[] {0,0,0,0};
-        int[] locationExcluded = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] locationExcluded = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] beamLocation = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+        int[] starterLocationExcluded = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] planetHasItems = new int[] { 0, 0, 0, 0, 0 };
         int randomnum;
         bool hasRolled;
         bool hasRolledBeam;
@@ -56,6 +60,7 @@ namespace MPHrandomizer
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
+            //fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\MPH moding tools\\dslazy\\NDS_UNPACK\\data\\levels\\entities";
             DialogResult result = fbd.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -65,6 +70,7 @@ namespace MPHrandomizer
 
         private void Randomize_click(object sender, RoutedEventArgs e)
         {
+            textblock.Text = "Randomizing...";
             if (seed_txtbox.Text != "")
             {
                 seed = Int32.Parse(seed_txtbox.Text);
@@ -79,11 +85,11 @@ namespace MPHrandomizer
             etankToPlace = 7;
             UAEToPlace = 12;
             beamsToPlace = 6;
-            for (int i = 1; i < beamsToPlace; i++)
+            for (int i = 0; i <= beamsToPlace; i++)
             {
                 beamToPlace[i] = 0;
             }
-            for (int i = 1; i < itemsToPlace + beamsToPlace; i++)
+            for (int i = 0; i <= itemsToPlace + beamsToPlace; i++)
             {
                 locationHasItem[i] = 0;
             }
@@ -100,7 +106,8 @@ namespace MPHrandomizer
             //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
-                    spoilerLog.WriteLine(logEntry);
+                spoilerLog.WriteLine("MPHrando v0.1.5");
+                spoilerLog.WriteLine(logEntry);
                 }
             //}
             //this is the sic transit magmaul barrier patch
@@ -111,6 +118,7 @@ namespace MPHrandomizer
             writeStream.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
             writeStream.Close();
             RollBeams();
+            textblock.Text = "Done!";
         }
 
         public void RollItems()
@@ -192,6 +200,7 @@ namespace MPHrandomizer
                             RollLocation(5);
                             beamToPlace[1] = 1;
                             beamsToPlace--;
+                            ExcludePlanets(Planet,ran,location);
                         }
                         else { hasRolledBeam = true; }
                         break;
@@ -202,6 +211,7 @@ namespace MPHrandomizer
                             RollLocation(7);
                             beamToPlace[2] = 1;
                             beamsToPlace--;
+                            ExcludePlanets(Planet, ran, location);
                         }
                         else { hasRolledBeam = true; }
                         break;
@@ -212,6 +222,7 @@ namespace MPHrandomizer
                             RollLocation(8);
                             beamToPlace[3] = 1;
                             beamsToPlace--;
+                            ExcludePlanets(Planet, ran, location);
                         }
                         else { hasRolledBeam = true; }
                         break;
@@ -222,6 +233,7 @@ namespace MPHrandomizer
                             RollLocation(9);
                             beamToPlace[4] = 1;
                             beamsToPlace--;
+                            ExcludePlanets(Planet, ran, location);
                         }
                         else { hasRolledBeam = true; }
                         break;
@@ -232,6 +244,7 @@ namespace MPHrandomizer
                             RollLocation(10);
                             beamToPlace[5] = 1;
                             beamsToPlace--;
+                            ExcludePlanets(Planet, ran, location);
                         }
                         else { hasRolledBeam = true; }
                         break;
@@ -242,6 +255,7 @@ namespace MPHrandomizer
                             RollLocation(11);
                             beamToPlace[6] = 1;
                             beamsToPlace--;
+                            ExcludePlanets(Planet, ran, location);
                         }
                         else { hasRolledBeam = true; }
                         break;
@@ -276,8 +290,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit3_C2_Ent.bin";
-                        location = 2124;
-                        PlaceItem(item, location, "VDOCortexCPUBeamLocation");
+                        address = 2124;
+                        Planet = 3;
+                        PlaceItem(item, address, "VDOCortexCPUBeamLocation");
                     }
                     else
                     {
@@ -286,13 +301,14 @@ namespace MPHrandomizer
                     }
                     break;
                 case 2:
-                    //ArcIceHiveBeamLocation
+                    //ARCIceHiveBeamLocation
                     if (locationHasItem[2] != 1 && (beamToPlace[4] != 0))
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_RM1_Ent.bin";
-                        location = 10276;
-                        PlaceItem(item, location, "ArcIceHiveBeamLocation");
+                        address = 10276;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCIceHiveBeamLocation");
                     }
                     else
                     {
@@ -306,8 +322,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM2_Ent.bin";
-                        location = 4844;
-                        PlaceItem(item, location, "CADataShrine02BeamLocation");
+                        address = 4844;
+                        Planet = 1;
+                        PlaceItem(item, address, "CADataShrine02BeamLocation");
                     }
                     else
                     {
@@ -321,8 +338,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM6_Ent.bin";
-                        location = 1168;
-                        PlaceItem(item, location, "CAIncubationVault02");
+                        address = 1168;
+                        Planet = 1;
+                        PlaceItem(item, address, "CAIncubationVault02");
                     }
                     else
                     {
@@ -336,8 +354,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit1_rm3_Ent.bin";
-                        location = 4192;
-                        PlaceItem(item, location, "ACouncilChamberBeamLocation");
+                        address = 4192;
+                        Planet = 2;
+                        PlaceItem(item, address, "ACouncilChamberBeamLocation");
                     }
                     else
                     {
@@ -351,8 +370,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_RM5_Ent.bin";
-                        location = 4332;
-                        PlaceItem(item, location, "ARCFaultLine");
+                        address = 4332;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCFaultLine");
                     }
                     else
                     {
@@ -366,8 +386,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM1_Ent.bin";
-                        location = 8324;
-                        PlaceItem(item, location, "CADataShrine01");
+                        address = 8324;
+                        Planet = 1;
+                        PlaceItem(item, address, "CADataShrine01");
                     }
                     else
                     {
@@ -381,8 +402,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_C7_Ent.bin";
-                        location = 11216;
-                        PlaceItem(item, location, "CANewArrivalRegistration");
+                        address = 11216;
+                        Planet = 1;
+                        PlaceItem(item, address, "CANewArrivalRegistration");
                     }
                     else
                     {
@@ -396,8 +418,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit1_C0_Ent.bin";
-                        location = 3444;
-                        PlaceItem(item, location, "AEchoHall");
+                        address = 3444;
+                        Planet = 2;
+                        PlaceItem(item, address, "AEchoHall");
                     }
                     else
                     {
@@ -411,8 +434,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit1_rm3_Ent.bin";
-                        location = 4048;
-                        PlaceItem(item, location, "ACouncilChamberEtankLocation");
+                        address = 4048;
+                        Planet = 2;
+                        PlaceItem(item, address, "ACouncilChamberEtankLocation");
                     }
                     else
                     {
@@ -426,8 +450,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit4_rm3_Ent.bin";
-                        location = 5112;
-                        PlaceItem(item, location, "ARCSicTransit");
+                        address = 5112;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCSicTransit");
                     }
                     else
                     {
@@ -441,8 +466,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_C0_Ent.bin";
-                        location = 8764;
-                        PlaceItem(item, location, "ARCFrostLabyrinth");
+                        address = 8764;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCFrostLabyrinth");
                     }
                     else
                     {
@@ -456,8 +482,8 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Gorea_Peek_Ent.bin";
-                        location = 312;
-                        PlaceItem(item, location, "OGoreaPeek");
+                        address = 312;
+                        PlaceItem(item, address, "OGoreaPeek");
                     }
                     else
                     {
@@ -471,8 +497,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM2_Ent.bin";
-                        location = 5212;
-                        PlaceItem(item, location, "CADataShrine02MissileExpansion");
+                        address = 5212;
+                        Planet = 1;
+                        PlaceItem(item, address, "CADataShrine02MissileExpansion");
                     }
                     else
                     {
@@ -486,8 +513,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM7_Ent.bin";
-                        location = 988;
-                        PlaceItem(item, location, "CADataIncubationVault03");
+                        address = 988;
+                        Planet = 1;
+                        PlaceItem(item, address, "CADataIncubationVault03");
                     }
                     else
                     {
@@ -501,8 +529,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit1_Land_Ent.bin";
-                        location = 2068;
-                        PlaceItem(item, location, "AAlinosGateway");
+                        address = 2068;
+                        Planet = 2;
+                        PlaceItem(item, address, "AAlinosGateway");
                     }
                     else
                     {
@@ -516,8 +545,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit1_RM1_Ent.bin";
-                        location = 15916;
-                        PlaceItem(item, location, "AHighGround");
+                        address = 15916;
+                        Planet = 2;
+                        PlaceItem(item, address, "AHighGround");
                     }
                     else
                     {
@@ -531,8 +561,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit1_RM2_Ent.bin";
-                        location = 4272;
-                        PlaceItem(item, location, "AAlinosPerch");
+                        address = 4272;
+                        Planet = 2;
+                        PlaceItem(item, address, "AAlinosPerch");
                     }
                     else
                     {
@@ -546,8 +577,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit3_C2_Ent.bin";
-                        location = 5872;
-                        PlaceItem(item, location, "VDOCortexCPUMissileExpansion");
+                        address = 5872;
+                        Planet = 3;
+                        PlaceItem(item, address, "VDOCortexCPUMissileExpansion");
                     }
                     else
                     {
@@ -561,8 +593,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit3_RM2_Ent.bin";
-                        location = 17812;
-                        PlaceItem(item, location, "VDOFuelStack");
+                        address = 17812;
+                        Planet = 3;
+                        PlaceItem(item, address, "VDOFuelStack");
                     }
                     else
                     {
@@ -576,8 +609,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_RM1_Ent.bin";
-                        location = 24556;
-                        PlaceItem(item, location, "ARCIceHiveMissileExpansion");
+                        address = 24556;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCIceHiveMissileExpansion");
                     }
                     else
                     {
@@ -591,8 +625,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_RM2_Ent.bin";
-                        location = 7848;
-                        PlaceItem(item, location, "ARCSubterranean");
+                        address = 7848;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCSubterranean");
                     }
                     else
                     {
@@ -606,8 +641,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_Land_Ent.bin";
-                        location = 4372;
-                        PlaceItem(item, location, "CACelestialGateway");
+                        address = 4372;
+                        Planet = 1;
+                        PlaceItem(item, address, "CACelestialGateway");
                     }
                     else
                     {
@@ -621,8 +657,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM2_Ent.bin";
-                        location = 9668;
-                        PlaceItem(item, location, "CADataShrine02UAE");
+                        address = 9668;
+                        Planet = 1;
+                        PlaceItem(item, address, "CADataShrine02UAE");
                     }
                     else
                     {
@@ -636,8 +673,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM4_Ent.bin";
-                        location = 17360;
-                        PlaceItem(item, location, "CATransferLock");
+                        address = 17360;
+                        Planet = 1;
+                        PlaceItem(item, address, "CATransferLock");
                     }
                     else
                     {
@@ -651,8 +689,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit2_RM8_Ent.bin";
-                        location = 7324;
-                        PlaceItem(item, location, "CADockingBay");
+                        address = 7324;
+                        Planet = 1;
+                        PlaceItem(item, address, "CADockingBay");
                     }
                     else
                     {
@@ -666,8 +705,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit1_C4_Ent.bin";
-                        location = 3308;
-                        PlaceItem(item, location, "AMagmaDrop");
+                        address = 3308;
+                        Planet = 2;
+                        PlaceItem(item, address, "AMagmaDrop");
                     }
                     else
                     {
@@ -681,8 +721,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit1_rm5_Ent.bin";
-                        location = 4932;
-                        PlaceItem(item, location, "AProcessorCore");
+                        address = 4932;
+                        Planet = 2;
+                        PlaceItem(item, address, "AProcessorCore");
                     }
                     else
                     {
@@ -696,8 +737,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit3_rm4_Ent.bin";
-                        location = 6412;
-                        PlaceItem(item, location, "VDOCompressionChamber");
+                        address = 6412;
+                        Planet = 3;
+                        PlaceItem(item, address, "VDOCompressionChamber");
                     }
                     else
                     {
@@ -711,8 +753,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit3_RM3_Ent.bin";
-                        location = 19848;
-                        PlaceItem(item, location, "VDOStaisBunker");
+                        address = 19848;
+                        Planet = 3;
+                        PlaceItem(item, address, "VDOStaisBunker");
                     }
                     else
                     {
@@ -726,8 +769,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_RM1_Ent.bin";
-                        location = 11160;
-                        PlaceItem(item, location, "ARCIceHiveUAE *WaspRooom*");
+                        address = 11160;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCIceHiveUAE *WaspRooom*");
                     }
                     else
                     {
@@ -741,8 +785,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\Unit4_RM1_Ent.bin";
-                        location = 52732;
-                        PlaceItem(item, location, "ARCIceHiveUAE *cubbie*");
+                        address = 52732;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCIceHiveUAE *cubbie*");
                     }
                     else
                     {
@@ -756,8 +801,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit4_rm4_Ent.bin";
-                        location = 12220;
-                        PlaceItem(item, location, "ARCSanctorus");
+                        address = 12220;
+                        Planet = 4;
+                        PlaceItem(item, address, "ARCSanctorus");
                     }
                     else
                     {
@@ -771,8 +817,9 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         FilePath.fileName = "\\unit4_C1_Ent.bin";
-                        location = 23840;
-                        PlaceItem(item, location,"ARCDripMoat");
+                        address = 23840;
+                        Planet = 4;
+                        PlaceItem(item, address,"ARCDripMoat");
                     }
                     else
                     {
@@ -791,6 +838,7 @@ namespace MPHrandomizer
         {
             Random rnd = new Random(seed);
             int ran = rnd.Next(1, maxnum);
+            seed = rnd.Next();
             return ran;
         }
 
@@ -806,7 +854,6 @@ namespace MPHrandomizer
                     spoilerLog.WriteLine(logEntry);
                 }
             //}
-            textblock.Text = "Wrote to: " + fullPath;
             //these two lines set up the writing
             FileStream ws = new FileStream(fullPath, FileMode.Open, FileAccess.Write);
             StreamWriter writeStream = new StreamWriter(ws);
@@ -865,105 +912,237 @@ namespace MPHrandomizer
             {
                 if (hasrolled == false){
                     ran = RandomNumberGenerator(7);
+                    hasrolled = true;
                 }
-                hasrolled = false;
-                if (locationHasItem[ran] != 1)
+                if (starterLocationExcluded[ran] != 1)
                 {
-                    if (locationExcluded[ran] != 1)
+                    switch (ran)
                     {
-                        switch (ran)
-                        {
                         case 1:
-                            locationHasItem[7] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[7] != 1)
+                            {
+                                locationHasItem[7] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
                         case 2:
-                            locationHasItem[9] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[9] != 1)
+                            {
+                                locationHasItem[9] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
                         case 3:
-                            locationHasItem[11] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[11] != 1)
+                            {
+                                locationHasItem[11] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
                         case 4:
-                            locationHasItem[14] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[14] != 1)
+                            {
+                                locationHasItem[14] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
                         case 5:
-                            locationHasItem[16] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[16] != 1)
+                            {
+                                locationHasItem[16] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
                         case 6:
-                            locationHasItem[17] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[17] != 1)
+                            {
+                                locationHasItem[17] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
                         case 7:
-                            locationHasItem[19] = 1;
-                            locationExcluded[ran] = 1;
-                            locationExcludedNum--;
+                            if (locationHasItem[19] != 1)
+                            {
+                                locationHasItem[19] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
                             break;
-                        }
                     }
-                    else if (ran != 7)
+                }
+                if (hasrolled == true)
+                {
+                    if (ran != 7)
                     {
                         ran++;
-                        hasrolled = true;
                     }
                     else
                     {
                         ran = 1;
-                        hasrolled = true;
                     }
                 }
-                else if (ran != 7)
-                { 
-                    ran++;
-                    hasrolled = true;
-                }
-                else 
-                {
-                    ran = 1;
-                    hasrolled = true;
-                }
+            }
+        }
+
+        public void ExcludePlanets(int planet, int beam, int location)
+        {
+            switch (planet) 
+            {
+                //celestial archives
+                case 1:
+                    planetHasItems[1] += 1;
+                    break;
+                //alinos
+                case 2:
+                    planetHasItems[2] += 1;
+                    break;
+                //vesper defense outpost
+                case 3:
+                    planetHasItems[3] += 1;
+                    break;
+                //arcterra
+                case 4:
+                    planetHasItems[4] += 1;
+                    break;
+            }
+            beamLocation[beam] = location;
+            //celestial archives
+            if (planetHasItems[1] == 2)
+            {
+                locationExcluded[3] = 1;
+                locationExcluded[4] = 1;
+                locationExcluded[7] = 1;
+                locationExcluded[8] = 1;
+                locationExcluded[14] = 1;
+                locationExcluded[15] = 1;
+                locationExcluded[23] = 1;
+                locationExcluded[24] = 1;
+                locationExcluded[25] = 1;
+                locationExcluded[26] = 1;
+                locationHasItem[3] = 1;
+                locationHasItem[4] = 1;
+                locationHasItem[7] = 1;
+                locationHasItem[8] = 1;
+                locationHasItem[14] = 1;
+                locationHasItem[15] = 1;
+                locationHasItem[23] = 1;
+                locationHasItem[24] = 1;
+                locationHasItem[25] = 1;
+                locationHasItem[26] = 1;
+            }
+            //alinos
+            if (planetHasItems[2] == 2)
+            {
+                locationExcluded[5] = 1;
+                locationExcluded[9] = 1;
+                locationExcluded[10] = 1;
+                locationExcluded[16] = 1;
+                locationExcluded[17] = 1;
+                locationExcluded[18] = 1;
+                locationExcluded[27] = 1;
+                locationExcluded[28] = 1;
+                locationHasItem[5] = 1;
+                locationHasItem[9] = 1;
+                locationHasItem[10] = 1;
+                locationHasItem[16] = 1;
+                locationHasItem[17] = 1;
+                locationHasItem[18] = 1;
+                locationHasItem[27] = 1;
+                locationHasItem[28] = 1;
+            }
+            //vesper defense outpost
+            if (planetHasItems[3] == 2)
+            {
+                locationExcluded[1] = 1;
+                locationExcluded[19] = 1;
+                locationExcluded[20] = 1;
+                locationExcluded[29] = 1;
+                locationExcluded[30] = 1;
+                locationHasItem[1] = 1;
+                locationHasItem[19] = 1;
+                locationHasItem[20] = 1;
+                locationHasItem[29] = 1;
+                locationHasItem[30] = 1;
+            }
+            //arcterra
+            if (planetHasItems[4] == 2)
+            {
+                locationExcluded[2] = 1;
+                locationExcluded[6] = 1;
+                locationExcluded[11] = 1;
+                locationExcluded[12] = 1;
+                locationExcluded[21] = 1;
+                locationExcluded[22] = 1;
+                locationExcluded[31] = 1;
+                locationExcluded[32] = 1;
+                locationExcluded[33] = 1;
+                locationExcluded[34] = 1;
+                locationHasItem[2] = 1;
+                locationHasItem[6] = 1;
+                locationHasItem[11] = 1;
+                locationHasItem[12] = 1;
+                locationHasItem[21] = 1;
+                locationHasItem[22] = 1;
+                locationHasItem[31] = 1;
+                locationHasItem[32] = 1;
+                locationHasItem[33] = 1;
+                locationHasItem[34] = 1;
             }
         }
 
         public void FixExclusions()
         {
-            if (locationExcluded[1] == 1)
+            if (starterLocationExcluded[1] == 1)
             {
                 locationHasItem[7] = 0;
             }
-            if (locationExcluded[2] == 1)
+            if (starterLocationExcluded[2] == 1)
             {
                 locationHasItem[9] = 0;
             }
-            if (locationExcluded[3] == 1)
+            if (starterLocationExcluded[3] == 1)
             {
                 locationHasItem[11] = 0;
             }
-            if (locationExcluded[4] == 1)
+            if (starterLocationExcluded[4] == 1)
             {
                 locationHasItem[14] = 0;
             }
-            if (locationExcluded[5] == 1)
+            if (starterLocationExcluded[5] == 1)
             {
                 locationHasItem[16] = 0;
             }
-            if (locationExcluded[6] == 1)
+            if (starterLocationExcluded[6] == 1)
             {
                 locationHasItem[17] = 0;
             }
-            if (locationExcluded[7] == 1)
+            if (starterLocationExcluded[7] == 1)
             {
                 locationHasItem[19] = 0;
             }
+            for (int i = 0; i <= 34; i++)
+            {
+                locationHasItem[i] = 0;
+            }
+            locationHasItem[beamLocation[1]] = 1;
+            locationHasItem[beamLocation[2]] = 1;
+            locationHasItem[beamLocation[3]] = 1;
+            locationHasItem[beamLocation[4]] = 1;
+            locationHasItem[beamLocation[5]] = 1;
+            locationHasItem[beamLocation[6]] = 1;
         }
     }
 }
