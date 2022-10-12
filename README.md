@@ -1,5 +1,5 @@
 # MPHrandomizer
-Official MPHrando Discord Server: **[MPHrandoServer]https://discord.gg/zECrj43DgU**
+Official MPHrando Discord Server: **[MPHrandoServer](https://discord.gg/zECrj43DgU)**
 
 This is my attempt at making a randomizer for Metroid Prime Hunters on Nintendo DS.
 
