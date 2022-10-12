@@ -32,7 +32,7 @@ You will need a program that can unpack and repack nds roms.
  Special thanks to NoneGiven and unknown for their work on **[MPHread](https://github.com/NoneGiven/MphRead)** without that I wouldn't have been able to figure out how to change items
 
 # If you need help, or just wanna give me some feedback:
-Feel free to DM me on Discord: shidr#6107
+Feel free to join the Official **[MPHrandoServer](https://discord.gg/zECrj43DgU)** and shoot me a message!
 I would love to hear about how you feel about item placement or ideas for features to be added
 
 # Enjoy!
