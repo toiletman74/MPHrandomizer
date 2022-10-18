@@ -106,7 +106,7 @@ namespace MPHrandomizer
             //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
-                spoilerLog.WriteLine("MPHrando v0.1.5");
+                spoilerLog.WriteLine("MPHrando v0.1.5b");
                 spoilerLog.WriteLine(logEntry);
                 }
             //}
@@ -844,14 +844,53 @@ namespace MPHrandomizer
 
         public void PlaceItem(int item, int location, string spoil)
         {
+            string spoilerItem = "";
             string fullPath = FilePath.pathEntityFldr + FilePath.fileName;
             string spoilerLogPath = System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt";
-            string logEntry = spoil + ": " + item.ToString();
+            switch (item)
+            {
+                //EnergyTank
+                case 4:
+                    spoilerItem = spoil + ": Energy Tank";
+                    break;
+                //VoltDriver
+                case 5:
+                    spoilerItem = spoil + ": Volt Driver";
+                    break;
+                //MissileExpansion
+                case 6:
+                    spoilerItem = spoil + ": Missile Expansion";
+                    break;
+                //Battlehammer
+                case 7:
+                    spoilerItem = spoil + ": Battlehammer";
+                    break;
+                //Imperialist
+                case 8:
+                    spoilerItem = spoil + ": Imperialist";
+                    break;
+                //Judicator
+                case 9:
+                    spoilerItem = spoil + ": Judicator";
+                    break;
+                //Magmaul
+                case 10:
+                    spoilerItem = spoil + ": Magmaul";
+                    break;
+                //ShockCoil
+                case 11:
+                    spoilerItem = spoil + ": Shock Coil";
+                    break;
+                //UAExpansion
+                case 18:
+                    spoilerItem = spoil + ": UA Expansion";
+                    break;
+            }
             //if (spoiler_chkbox.IsChecked ?? true)
             //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
-                    spoilerLog.WriteLine(logEntry);
+                    spoilerLog.WriteLine(spoilerItem);
                 }
             //}
             //these two lines set up the writing
