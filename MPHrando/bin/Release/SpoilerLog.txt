@@ -1,0 +1,36 @@
+MPHrando v0.1.5b
+Seed: 1397050377
+VDOCortexCPUMissileExpansion: Magmaul
+ARCFaultLine: Judicator
+ARCIceHiveMissileExpansion: Shock Coil
+AProcessorCore: Volt Driver
+CATransferLock: Battlehammer
+CADataShrine02BeamLocation: Imperialist
+ARCFrostLabyrinth: Missile Expansion
+CADockingBay: Missile Expansion
+OGoreaPeek: Energy Tank
+CADataShrine02MissileExpansion: Missile Expansion
+ARCSubterranean: Energy Tank
+AMagmaDrop: Missile Expansion
+CADataIncubationVault03: Energy Tank
+CADataShrine01: Missile Expansion
+AEchoHall: Missile Expansion
+VDOCompressionChamber: Missile Expansion
+ARCIceHiveUAE *WaspRooom*: Missile Expansion
+VDOFuelStack: Energy Tank
+AAlinosGateway: Missile Expansion
+CANewArrivalRegistration: UA Expansion
+VDOStaisBunker: Energy Tank
+ACouncilChamberEtankLocation: UA Expansion
+AHighGround: Energy Tank
+AAlinosPerch: UA Expansion
+CACelestialGateway: Energy Tank
+ARCSicTransit: UA Expansion
+CADataShrine02UAE: UA Expansion
+ARCIceHiveUAE *cubbie*: UA Expansion
+ARCSanctorus: UA Expansion
+ARCDripMoat: UA Expansion
+VDOCortexCPUBeamLocation: UA Expansion
+ARCIceHiveBeamLocation: UA Expansion
+CAIncubationVault02: UA Expansion
+ACouncilChamberBeamLocation: UA Expansion
