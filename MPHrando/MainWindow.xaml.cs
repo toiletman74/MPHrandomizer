@@ -53,6 +53,7 @@ namespace MPHrandomizer
         int seed;
         byte artifactID = 0x00;
         byte artifactModel = 0x00;
+        byte[] linkedEntity = { 0xFF, 0xFF };
         Random rnd = new Random();
 
         class EntityLocation
@@ -122,15 +123,15 @@ namespace MPHrandomizer
                 {32 , new EntityLocation("VDOWeaponsComplexArtifact2", "\\Unit3_RM1_Ent.bin", 2228, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
                 {33 , new EntityLocation("VDOCortexCPUBattleHammer", "\\Unit3_C2_Ent.bin", 2080, 0x01, 0x01, 19, 9, 0, 0, 0, 0)},
                 {34 , new EntityLocation("VDOCortexCPUMissile", "\\Unit3_C2_Ent.bin", 5828, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
-                {35 , new EntityLocation("VDOCompressionChamberArtifact", "\\unit3_rm4_Ent.bin", 3496, 0x01, 0x01, 55, 12, 0, 0, 0, 0)},
+                {35 , new EntityLocation("VDOCompressionChamberArtifact", "\\unit3_rm4_Ent.bin", 3496, 0x01, 0x01, 55, 18, 0, 0, 0, 0)},
                 {36 , new EntityLocation("VDOCompressionChamberUAE", "\\unit3_rm4_Ent.bin", 6368, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
                 {37 , new EntityLocation("VDOStasisBunkerArtifact1", "\\Unit3_RM3_Ent.bin", 2432, 0x01, 0x00, 17, 18, 0, 0, 0, 0)},
                 {38 , new EntityLocation("VDOStasisBunkerArtifact2", "\\Unit3_RM3_Ent.bin", 7352, 0x01, 0x00, 36, 18, 0, 0, 0, 0)},
                 {39 , new EntityLocation("VDOStasisBunkerUAE", "\\Unit3_RM3_Ent.bin", 19804, 0x01, 0x01, 17, 18, 0, 0, 0, 0)},
                 {40 , new EntityLocation("VDOFuelStackArtifact", "\\Unit3_RM2_Ent.bin", 8128, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
                 {41 , new EntityLocation("VDOFuelStackMissile", "\\Unit3_RM2_Ent.bin", 17768, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
-                {42 , new EntityLocation("ARCSicTransitEtank", "\\unit4_rm3_Ent.bin", 5068, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
-                {43 , new EntityLocation("ARCSicTransitArtifact", "\\unit4_rm3_Ent.bin", 6844, 0x01, 0x01, 6, 16, 9, 16, 0, 0)},
+                {42 , new EntityLocation("ARCSicTransitEtank", "\\unit4_rm3_Ent.bin", 5068, 0x01, 0x00, 9, 16, 0, 0, 0, 0)}, //TODO find a better way to fix the problem of having two messages that need to be sent out from one item entity
+                {43 , new EntityLocation("ARCSicTransitArtifact", "\\unit4_rm3_Ent.bin", 6844, 0x01, 0x01, 6, 16, 9, 16, 0, 0)}, //I fixed this in a ghetto way, I took the second message that this is supposed to send and put it on the other item in the same room.
                 {44 , new EntityLocation("ARCIceHiveArtifact", "\\Unit4_RM1_Ent.bin", 5596, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
                 {45 , new EntityLocation("ARCIceHiveJudicator", "\\Unit4_RM1_Ent.bin", 10232, 0x01, 0x00, 205, 9, 0, 0, 0, 0)},
                 {46 , new EntityLocation("ARCIceHiveUAE1", "\\Unit4_RM1_Ent.bin", 11116, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
@@ -157,8 +158,8 @@ namespace MPHrandomizer
         public void fileSelect_click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
-            //fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
+            //fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
+            fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
             DialogResult result = fbd.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -218,6 +219,9 @@ namespace MPHrandomizer
             StreamWriter writeStream = new StreamWriter(ws);
             writeStream.BaseStream.Seek(20316, SeekOrigin.Current);
             writeStream.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+            //fullPath = FilePath.pathEntityFldr + "\\unit1_RM1_Ent.bin";
+            //writeStream.BaseStream.Seek(27116, SeekOrigin.Begin);
+            //writeStream.BaseStream.Write(new byte[] { 0x02 }, 0, 1);
             writeStream.Close();
             RollBeams();
             textblock.Text = "Done!";
@@ -398,6 +402,10 @@ namespace MPHrandomizer
             if (hasRolled == false)
             {
                 location = RandomNumberGenerator(58);
+                if (locationHasItem[5] != 1 && artifactsToPlace == 1)
+                {
+                    location = 5; //this should make high ground always get an artifact in the artifact location.
+                } //it's just here because I haven't done the trigger thing yet. pretty ghetto fix
             }
             else
             {
@@ -825,6 +833,8 @@ namespace MPHrandomizer
                     //VDO Cortex CPU Battle Hammer
                     if (locationHasItem[33] != 1 && beamToPlace[2] == 1)
                     {
+                        linkedEntity[0] = 0x15;
+                        linkedEntity[1] = 0x00;
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
@@ -1287,8 +1297,8 @@ namespace MPHrandomizer
                 bytesToWrite[25] = 0x00; //message 3
                 bytesToWrite[26] = 0x00; //message 3
                 bytesToWrite[27] = 0x00; //message 3
-                bytesToWrite[28] = 0xFF; //linked Entity always -1
-                bytesToWrite[29] = 0xFF; //linked Entity always -1
+                bytesToWrite[28] = linkedEntity[0]; //linked Entity always -1
+                bytesToWrite[29] = linkedEntity[1]; //linked Entity always -1
                 bytesToWrite[30] = 0x00; //padding
                 bytesToWrite[31] = 0x00; //padding
                 writeStream.BaseStream.Write(bytesToWrite, 0, bytesToWrite.Length);
@@ -1313,8 +1323,8 @@ namespace MPHrandomizer
                 writeStream.BaseStream.Write(entityType, 0, entityType.Length);
                 writeStream.BaseStream.Seek(EntityLocationDict[location].Offset + 40, SeekOrigin.Begin);
                 byte[] bytesToWrite = new byte[32];
-                bytesToWrite[0] = 0xFF; //ParentId
-                bytesToWrite[1] = 0xFF; //ParentId
+                bytesToWrite[0] = linkedEntity[0]; //ParentId
+                bytesToWrite[1] = linkedEntity[1]; //ParentId
                 bytesToWrite[2] = 0x00; //ParentId
                 bytesToWrite[3] = 0x00; //ParentId
                 bytesToWrite[4] = itemType;
@@ -1347,6 +1357,11 @@ namespace MPHrandomizer
                 bytesToWrite[31] = 0x00; //CollectedMsgParam2
                 writeStream.BaseStream.Write(bytesToWrite, 0, bytesToWrite.Length);
                 writeStream.Close();
+            }
+            if (linkedEntity[0] != 0xFF)
+            {
+                linkedEntity[0] = 0xFF;
+                linkedEntity[1] = 0xFF;
             }
         }
 
