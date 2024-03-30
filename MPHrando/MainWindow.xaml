@@ -85,6 +85,13 @@
                                         <CheckBox x:Name="DeepCAtrickCheckBox"/>
                                     </StackPanel>
                                 </ListBoxItem>
+                                <ListBoxItem ToolTip="It's possible to clip through a wall in Incubation Vault 03 to get to the warp that leads to &#x0a;New Arrival Registration without going through the shock coil force field.">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="New Arrival Registration w/o Shock Coil"/>
+                                        <Grid Width="51"/>
+                                        <CheckBox x:Name="newarrivaltrickCheckBox"/>
+                                    </StackPanel>
+                                </ListBoxItem>
                                 <ListBoxItem ToolTip="Using a charged missile you can clip out of bounds to skip the Battlehammer force field that shows up upon leaving the morphball tunnel.">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Cortex CPU Beam w/o battlehammer"/>

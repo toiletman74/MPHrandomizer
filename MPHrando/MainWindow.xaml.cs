@@ -44,7 +44,7 @@ namespace MPHrandomizer
         int[] locationHasItem = new int[59];
         int[] locationExcluded = new int[59];
         int[] beamLocation = new int[7];
-        int[] starterLocationExcluded = new int[16];
+        int[] starterLocationExcluded = new int[31];
         int[] planetHasItems = new int[5];
         int randomnum;
         bool hasRolled;
@@ -158,8 +158,8 @@ namespace MPHrandomizer
         public void fileSelect_click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
-            //fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
+            //fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
+            fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
             DialogResult result = fbd.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -320,7 +320,21 @@ namespace MPHrandomizer
                 {
                     case 1:
                         //voltdriver
-                        if (beamToPlace[1] != 1)
+                        if (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)
+                        {
+                            if (beamToPlace[6] == 1 && beamsToPlace == 5)
+                            {
+                                hasRolledBeam = true;
+                            }
+                            else if (beamToPlace[1] != 1)
+                            {
+                                RollLocation(5);
+                                beamToPlace[1] = 1;
+                                beamsToPlace--;
+                                ExcludePlanets(ran, location);
+                            }
+                        }
+                        else if (beamToPlace[1] != 1)
                         {
                             RollLocation(5);
                             beamToPlace[1] = 1;
@@ -329,7 +343,7 @@ namespace MPHrandomizer
                         }
                         else { hasRolledBeam = true; }
                         break;
-                case 2:
+                    case 2:
                         //battlehammer
                         if (beamToPlace[2] != 1)
                         {
@@ -375,14 +389,28 @@ namespace MPHrandomizer
                         break;
                 case 6:
                         //shockcoil
-                        if (beamToPlace[6] != 1)
+                        if (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)
+                        {
+                            if (beamToPlace[1] == 1 && beamsToPlace == 5)
+                            {
+                                hasRolledBeam = true;
+                            }
+                            else if (beamToPlace[6] != 1)
+                            {
+                                RollLocation(11);
+                                beamToPlace[6] = 1;
+                                beamsToPlace--;
+                                ExcludePlanets(ran, location);
+                            }
+                        }
+                        else if (beamToPlace[6] != 1)
                         {
                             RollLocation(11);
                             beamToPlace[6] = 1;
                             beamsToPlace--;
                             ExcludePlanets(ran, location);
                         }
-                        else { hasRolledBeam = true; }
+                        else{ hasRolledBeam = true; }
                         break;
                     default:
                         ran = 0;
@@ -779,7 +807,7 @@ namespace MPHrandomizer
                     break;
                 case 29:
                     //CA New Arrival Registration Artifact
-                    if (locationHasItem[29] != 1 && ((beamToPlace[1] == 1 && beamToPlace[6] == 1) || (beamToPlace[6] == 1 && DeepCAtrickCheckBox.IsChecked == true)))
+                    if (locationHasItem[29] != 1 && ((beamToPlace[1] == 1 && beamToPlace[6] == 1) || (beamToPlace[6] == 1 && DeepCAtrickCheckBox.IsChecked == true) || (beamToPlace[1] == 1 && newarrivaltrickCheckBox.IsChecked == true) || (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -792,7 +820,7 @@ namespace MPHrandomizer
                     break;
                 case 30:
                     //CA New Arrival Registration E tank
-                    if (locationHasItem[30] != 1 && ((beamToPlace[1] == 1 && beamToPlace[6] == 1) || (beamToPlace[6] == 1 && DeepCAtrickCheckBox.IsChecked == true)))
+                    if (locationHasItem[30] != 1 && ((beamToPlace[1] == 1 && beamToPlace[6] == 1) || (beamToPlace[6] == 1 && DeepCAtrickCheckBox.IsChecked == true) || (beamToPlace[1] == 1 && newarrivaltrickCheckBox.IsChecked == true) || (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -1261,9 +1289,9 @@ namespace MPHrandomizer
                 byte[] notifyEntityID = { (byte)EntityLocationDict[location].NotifyEntityId, 0x00 };
                 byte[] collectedMessage = { (byte)EntityLocationDict[location].CollectedMessage };
                 byte[] message2Target = { (byte)EntityLocationDict[location].Message2Target, 0x00, 0x00, 0x00 };
-                byte[] message2 = { (byte)EntityLocationDict[location].Message2 };
+                byte[] message2 = { (byte)EntityLocationDict[location].Message2, 0x00 };
                 byte[] message3Target = { (byte)EntityLocationDict[location].Message3Target, 0x00, 0x00, 0x00 };
-                byte[] message3 = { (byte)EntityLocationDict[location].Message3 };
+                byte[] message3 = { (byte)EntityLocationDict[location].Message3, 0x00 };
                 byte[] entityType = { 0x11 };
                 writeStream.BaseStream.Write(entityType, 0, entityType.Length);
                 writeStream.BaseStream.Seek(EntityLocationDict[location].Offset + 40, SeekOrigin.Begin);
@@ -1286,7 +1314,7 @@ namespace MPHrandomizer
                 bytesToWrite[14] = message2Target[2];
                 bytesToWrite[15] = message2Target[3];
                 bytesToWrite[16] = message2[0];
-                bytesToWrite[17] = 0x00; //message 2
+                bytesToWrite[17] = message2[1];
                 bytesToWrite[18] = 0x00; //message 2
                 bytesToWrite[19] = 0x00; //message 2
                 bytesToWrite[20] = message3Target[0];
@@ -1294,7 +1322,7 @@ namespace MPHrandomizer
                 bytesToWrite[22] = message3Target[2];
                 bytesToWrite[23] = message3Target[3];
                 bytesToWrite[24] = message3[0];
-                bytesToWrite[25] = 0x00; //message 3
+                bytesToWrite[25] = message3[1];
                 bytesToWrite[26] = 0x00; //message 3
                 bytesToWrite[27] = 0x00; //message 3
                 bytesToWrite[28] = linkedEntity[0]; //linked Entity always -1
@@ -1367,314 +1395,129 @@ namespace MPHrandomizer
 
         public void LocationExclude()
         {
-            //this makes it so that when one beam is placed it will not place another beam in the locations that require no beam to get to
-            //TODO add any artifacts that are obtainable without beams to this list
-            bool hasrolled = false;
-            int ran = 0;
-            //locationExcludedNum controls how many beams are placed in locations that do not require a beam to get to.
-            int locationExcludedNum = RandomNumberGenerator(2);
-            while (locationExcludedNum != 0)
+            if (locationHasItem[1] != 1)
             {
-                if (hasrolled == false){
-                    ran = RandomNumberGenerator(31);
-                    hasrolled = true;
-                }
-                if (starterLocationExcluded[ran] != 1)
-                {
-                    switch (ran)
-                    {
-                        case 1:
-                            if (locationHasItem[1] != 1)
-                            {
-                                locationHasItem[1] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 2:
-                            if (locationHasItem[2] != 1)
-                            {
-                                locationHasItem[2] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 3:
-                            if (locationHasItem[3] != 1)
-                            {
-                                locationHasItem[3] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 4:
-                            if (locationHasItem[4] != 1)
-                            {
-                                locationHasItem[4] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 5:
-                            if (locationHasItem[5] != 1)
-                            {
-                                locationHasItem[5] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 6:
-                            if (locationHasItem[6] != 1)
-                            {
-                                locationHasItem[6] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 7:
-                            if (locationHasItem[7] != 1 && MagmaDroptrickcheckbox.IsChecked == true)
-                            {
-                                locationHasItem[7] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 8:
-                            if (locationHasItem[8] != 1 && Crashsitetrickcheckbox.IsChecked == true)
-                            {
-                                locationHasItem[8] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 9:
-                            if (locationHasItem[16] != 1)
-                            {
-                                locationHasItem[16] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 10:
-                            if (locationHasItem[17] != 1)
-                            {
-                                locationHasItem[17] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 11:
-                            if (locationHasItem[18] != 1 && datashrine02trickcheckbox.IsChecked == true)
-                            {
-                                locationHasItem[18] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 12:
-                            if (locationHasItem[19] != 1)
-                            {
-                                locationHasItem[19] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 13:
-                            if (locationHasItem[20] != 1 && datashrine02trickcheckbox.IsChecked == true)
-                            {
-                                locationHasItem[20] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 14:
-                            if (locationHasItem[21] != 1)
-                            {
-                                locationHasItem[21] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 15:
-                            if (locationHasItem[22] != 1)
-                            {
-                                locationHasItem[22] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 16:
-                            if (locationHasItem[23] != 1 && DeepCAtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[23] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 17:
-                            if (locationHasItem[24] != 1 && DeepCAtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[24] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 18:
-                            if (locationHasItem[25] != 1 && DeepCAtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[25] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 19:
-                            if (locationHasItem[26] != 1 && DeepCAtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[26] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 20:
-                            if (locationHasItem[27] != 1 && DeepCAtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[27] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 21:
-                            if (locationHasItem[28] != 1 && DeepCAtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[28] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 22:
-                            if (locationHasItem[31] != 1)
-                            {
-                                locationHasItem[31] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 23:
-                            if (locationHasItem[33] != 1 && CortexCPUtrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[33] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 24:
-                            if (locationHasItem[34] != 1)
-                            {
-                                locationHasItem[34] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 25:
-                            if (locationHasItem[35] != 1 && CompressionChambertrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[35] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 26:
-                            if (locationHasItem[36] != 1 && CompressionChambertrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[36] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 27:
-                            if (locationHasItem[42] != 1)
-                            {
-                                locationHasItem[42] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 28:
-                            if (locationHasItem[43] != 1)
-                            {
-                                locationHasItem[43] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 29:
-                            if (locationHasItem[44] != 1 && IcehiveCubbietrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[44] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 30:
-                            if (locationHasItem[47] != 1 && IcehivemissiletrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[47] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                        case 31:
-                            if (locationHasItem[48] != 1 && IcehiveCubbietrickCheckBox.IsChecked == true)
-                            {
-                                locationHasItem[48] = 1;
-                                starterLocationExcluded[ran] = 1;
-                                locationExcludedNum--;
-                                hasrolled = false;
-                            }
-                            break;
-                    }
-                }
-                if (hasrolled == true)
-                {
-                    if (ran <= 15)
-                    {
-                        ran++;
-                    }
-                    else
-                    {
-                        ran = 1;
-                    }
-                }
+                locationHasItem[1] = 1;
+            }
+            if (locationHasItem[2] != 1)
+            {
+                locationHasItem[2] = 1;
+            }
+            if (locationHasItem[3] != 1)
+            {
+                locationHasItem[3] = 1;
+            }
+            if (locationHasItem[4] != 1)
+            {
+                locationHasItem[4] = 1;
+            }
+            if (locationHasItem[5] != 1)
+            {
+                locationHasItem[5] = 1;
+            }
+            if (locationHasItem[6] != 1)
+            {
+                locationHasItem[6] = 1;
+            }
+            if (locationHasItem[7] != 1 && MagmaDroptrickcheckbox.IsChecked == true)
+            {
+                locationHasItem[7] = 1;
+            }
+            if (locationHasItem[8] != 1 && Crashsitetrickcheckbox.IsChecked == true)
+            {
+                locationHasItem[8] = 1;
+            }
+            if (locationHasItem[16] != 1)
+            {
+                locationHasItem[16] = 1;
+            }
+            if (locationHasItem[17] != 1)
+            {
+                locationHasItem[17] = 1;
+            }
+            if (locationHasItem[18] != 1 && datashrine02trickcheckbox.IsChecked == true)
+            {
+                locationHasItem[18] = 1;
+            }
+            if (locationHasItem[19] != 1)
+            {
+                locationHasItem[19] = 1;
+            }
+            if (locationHasItem[20] != 1 && datashrine02trickcheckbox.IsChecked == true)
+            {
+                locationHasItem[20] = 1;
+            }
+            if (locationHasItem[21] != 1)
+            {
+                locationHasItem[21] = 1;
+            }
+            if (locationHasItem[22] != 1)
+            {
+                locationHasItem[22] = 1;
+            }
+            if (locationHasItem[23] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[23] = 1;
+            }
+            if (locationHasItem[24] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[17] = 1;
+            }
+            if (locationHasItem[25] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[25] = 1;
+            }
+            if (locationHasItem[26] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[26] = 1;
+            }
+            if (locationHasItem[27] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[27] = 1;
+            }
+            if (locationHasItem[28] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[28] = 1;
+            }
+            if (locationHasItem[31] != 1)
+            {
+                locationHasItem[31] = 1;
+            }
+            if (locationHasItem[33] != 1 && CortexCPUtrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[33] = 1;
+            }
+            if (locationHasItem[34] != 1)
+            {
+                locationHasItem[34] = 1;
+            }
+            if (locationHasItem[35] != 1 && CompressionChambertrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[35] = 1;
+            }
+            if (locationHasItem[36] != 1 && CompressionChambertrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[36] = 1;
+            }
+            if (locationHasItem[42] != 1)
+            {
+                locationHasItem[42] = 1;
+            }
+            if (locationHasItem[43] != 1)
+            {
+                locationHasItem[43] = 1;
+            }
+            if (locationHasItem[44] != 1 && IcehiveCubbietrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[44] = 1;
+            }
+            if (locationHasItem[47] != 1 && IcehivemissiletrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[47] = 1;
+            }
+            if (locationHasItem[48] != 1 && IcehiveCubbietrickCheckBox.IsChecked == true)
+            {
+                locationHasItem[48] = 1;
             }
         }
 
@@ -1701,20 +1544,6 @@ namespace MPHrandomizer
             //alinos
             if (planetHasItems[1] == 2)
             {
-                locationExcluded[1] = 1;
-                locationExcluded[2] = 1;
-                locationExcluded[3] = 1;
-                locationExcluded[4] = 1;
-                locationExcluded[5] = 1;
-                locationExcluded[6] = 1;
-                locationExcluded[7] = 1;
-                locationExcluded[8] = 1;
-                locationExcluded[9] = 1;
-                locationExcluded[10] = 1;
-                locationExcluded[11] = 1;
-                locationExcluded[12] = 1;
-                locationExcluded[13] = 1;
-                locationExcluded[14] = 1;
                 locationHasItem[1] = 1;
                 locationHasItem[2] = 1;
                 locationHasItem[3] = 1;
@@ -1733,22 +1562,6 @@ namespace MPHrandomizer
             //celestial archives
             if (planetHasItems[2] == 2)
             {
-                locationExcluded[15] = 1;
-                locationExcluded[16] = 1;
-                locationExcluded[17] = 1;
-                locationExcluded[18] = 1;
-                locationExcluded[19] = 1;
-                locationExcluded[20] = 1;
-                locationExcluded[21] = 1;
-                locationExcluded[22] = 1;
-                locationExcluded[23] = 1;
-                locationExcluded[24] = 1;
-                locationExcluded[25] = 1;
-                locationExcluded[26] = 1;
-                locationExcluded[27] = 1;
-                locationExcluded[28] = 1;
-                locationExcluded[29] = 1;
-                locationExcluded[30] = 1;
                 locationHasItem[15] = 1;
                 locationHasItem[16] = 1;
                 locationHasItem[17] = 1;
@@ -1769,17 +1582,6 @@ namespace MPHrandomizer
             //vesper defense outpost
             if (planetHasItems[3] == 2)
             {
-                locationExcluded[31] = 1;
-                locationExcluded[32] = 1;
-                locationExcluded[33] = 1;
-                locationExcluded[34] = 1;
-                locationExcluded[35] = 1;
-                locationExcluded[36] = 1;
-                locationExcluded[37] = 1;
-                locationExcluded[38] = 1;
-                locationExcluded[39] = 1;
-                locationExcluded[40] = 1;
-                locationExcluded[41] = 1;
                 locationHasItem[31] = 1;
                 locationHasItem[32] = 1;
                 locationHasItem[33] = 1;
@@ -1795,22 +1597,6 @@ namespace MPHrandomizer
             //arcterra
             if (planetHasItems[4] == 2)
             {
-                locationExcluded[42] = 1;
-                locationExcluded[43] = 1;
-                locationExcluded[44] = 1;
-                locationExcluded[45] = 1;
-                locationExcluded[46] = 1;
-                locationExcluded[47] = 1;
-                locationExcluded[48] = 1;
-                locationExcluded[49] = 1;
-                locationExcluded[50] = 1;
-                locationExcluded[51] = 1;
-                locationExcluded[52] = 1;
-                locationExcluded[53] = 1;
-                locationExcluded[54] = 1;
-                locationExcluded[55] = 1;
-                locationExcluded[56] = 1;
-                locationExcluded[57] = 1;
                 locationHasItem[42] = 1;
                 locationHasItem[43] = 1;
                 locationHasItem[44] = 1;
@@ -1832,66 +1618,6 @@ namespace MPHrandomizer
 
         public void FixExclusions()
         {
-            if (starterLocationExcluded[1] == 1)
-            {
-                locationHasItem[1] = 0;
-            }
-            if (starterLocationExcluded[2] == 1)
-            {
-                locationHasItem[2] = 0;
-            }
-            if (starterLocationExcluded[3] == 1)
-            {
-                locationHasItem[3] = 0;
-            }
-            if (starterLocationExcluded[4] == 1)
-            {
-                locationHasItem[4] = 0;
-            }
-            if (starterLocationExcluded[5] == 1)
-            {
-                locationHasItem[5] = 0;
-            }
-            if (starterLocationExcluded[6] == 1)
-            {
-                locationHasItem[6] = 0;
-            }
-            if (starterLocationExcluded[7] == 1)
-            {
-                locationHasItem[16] = 0;
-            }
-            if (starterLocationExcluded[8] == 1)
-            {
-                locationHasItem[17] = 0;
-            }
-            if (starterLocationExcluded[9] == 1)
-            {
-                locationHasItem[19] = 0;
-            }
-            if (starterLocationExcluded[10] == 1)
-            {
-                locationHasItem[21] = 0;
-            }
-            if (starterLocationExcluded[11] == 1)
-            {
-                locationHasItem[22] = 0;
-            }
-            if (starterLocationExcluded[12] == 1)
-            {
-                locationHasItem[31] = 0;
-            }
-            if (starterLocationExcluded[13] == 1)
-            {
-                locationHasItem[34] = 0;
-            }
-            if (starterLocationExcluded[14] == 1)
-            {
-                locationHasItem[42] = 0;
-            }
-            if (starterLocationExcluded[15] == 1)
-            {
-                locationHasItem[43] = 0;
-            }
             for (int i = 0; i <= 58; i++)
             {
                 locationHasItem[i] = 0;
