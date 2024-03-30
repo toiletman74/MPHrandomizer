@@ -1,0 +1,60 @@
+MPHrando v0.2.2
+Seed: 69696969
+CADataShrine01Artifact: Judicator
+AMagmaDrop: Imperialist
+AEchoHallEtank: Volt Driver
+ARCIceHiveArtifact: Magmaul
+CADataShrine02Missile: Battlehammer
+VDOWeaponsComplexArtifact1: Shock Coil
+AElderPassage: Artifact00
+VDOStasisBunkerArtifact1: Artifact01
+VDOStasisBunkerArtifact2: Artifact02
+CAIncubationVault01: Artifact10
+CADataShrine02UAE: Artifact11
+ARCSicTransitEtank: Artifact12
+CAIncubationVault03: Artifact20
+VDOCompressionChamberUAE: Artifact21
+ACrashSite: Artifact22
+VDOFuelStackArtifact: Artifact30
+CANewArrivalRegistrationArtifact: Artifact31
+AHighGroundArtifact: Artifact32
+CADataShrine02VoltDriver: Artifact40
+ARCFrostLabyrinthEtank: Artifact41
+CADataShrine03: Artifact42
+ARCFaultLineArtifact: Artifact50
+VDOWeaponsComplexArtifact2: Artifact51
+AAlinosGateway: Artifact52
+VDOStasisBunkerUAE: Artifact60
+APistonCave: Artifact61
+CASynergyCore: Artifact62
+ACouncilChamberMagmaul: Artifact70
+VDOCortexCPUBattleHammer: Artifact71
+CANewArrivalRegistrationEtank: Artifact72
+VDOCortexCPUMissile: Missile Expansion
+AAlinosPerch: Energy Tank
+CADockingBayUAE: Missile Expansion
+ARCSicTransitArtifact: Energy Tank
+VDOCompressionChamberArtifact: Energy Tank
+ARCSanctorusArtifact: Missile Expansion
+AEchoHallArtifact: Missile Expansion
+CAIncubationVault02: Energy Tank
+ACouncilChamberEtank: Energy Tank
+ARCDripMoat: Missile Expansion
+VDOFuelStackMissile: Missile Expansion
+CATransferLock: Missile Expansion
+ACouncilChamberArtifact: Energy Tank
+ARCIceHiveJudicator: Energy Tank
+CADockingBayArtifact: Missile Expansion
+AProcessorCore: UA Expansion
+AHighGroundMissile: Missile Expansion
+ARCIceHiveUAE1: UA Expansion
+ARCFaultLineImperialist: UA Expansion
+CACelestialGateway: UA Expansion
+CADataShrine01Etank: UA Expansion
+ARCIceHiveMissile: UA Expansion
+ARCIceHiveUAE2: UA Expansion
+ARCFrostLabyrinthArtifact: UA Expansion
+ARCSanctorusUAE: UA Expansion
+ARCSubterraneanArtifact: UA Expansion
+ARCSubterraneanMissile: UA Expansion
+OGoreaPeek: UA Expansion

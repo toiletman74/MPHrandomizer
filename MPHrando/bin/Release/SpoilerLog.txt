@@ -1,0 +1,60 @@
+MPHrando v0.2.1
+Seed: 6969
+VDOWeaponsComplexArtifact1: Imperialist
+ARCSicTransitArtifact: Magmaul
+CADataShrine01Artifact: Volt Driver
+CADataShrine03: Judicator
+VDOCortexCPUMissile: Shock Coil
+AHighGroundArtifact: Battlehammer
+ARCDripMoat: Artifact00
+VDOFuelStackMissile: Artifact01
+ARCSanctorusArtifact: Artifact02
+AEchoHallArtifact: Artifact10
+CAIncubationVault01: Artifact11
+AMagmaDrop: Artifact12
+CASynergyCore: Artifact20
+ARCFrostLabyrinthEtank: Artifact21
+VDOStasisBunkerArtifact1: Artifact22
+VDOWeaponsComplexArtifact2: Artifact30
+ACouncilChamberEtank: Artifact31
+CADataShrine02Missile: Artifact32
+ACrashSite: Artifact40
+AAlinosGateway: Artifact41
+VDOStasisBunkerArtifact2: Artifact42
+ARCFaultLineArtifact: Artifact50
+AAlinosPerch: Artifact51
+ACouncilChamberMagmaul: Artifact52
+AElderPassage: Artifact60
+ARCIceHiveMissile: Artifact61
+VDOCompressionChamberUAE: Artifact62
+ARCFrostLabyrinthArtifact: Artifact70
+VDOStasisBunkerUAE: Artifact71
+AProcessorCore: Artifact72
+CANewArrivalRegistrationArtifact: Missile Expansion
+CADataShrine01Etank: Energy Tank
+CADockingBayUAE: Missile Expansion
+ARCFaultLineImperialist: Missile Expansion
+ARCSanctorusUAE: Energy Tank
+ACouncilChamberArtifact: Energy Tank
+APistonCave: Missile Expansion
+ARCIceHiveUAE1: Missile Expansion
+ARCIceHiveArtifact: Energy Tank
+AHighGroundMissile: Energy Tank
+VDOFuelStackArtifact: Energy Tank
+ARCSubterraneanMissile: Energy Tank
+ARCSicTransitEtank: Missile Expansion
+CADataShrine02VoltDriver: UA Expansion
+ARCIceHiveJudicator: Missile Expansion
+ARCSubterraneanArtifact: UA Expansion
+OGoreaPeek: Missile Expansion
+AEchoHallEtank: UA Expansion
+CACelestialGateway: Missile Expansion
+ARCIceHiveUAE2: UA Expansion
+CADataShrine02UAE: UA Expansion
+CATransferLock: UA Expansion
+CADockingBayArtifact: UA Expansion
+CAIncubationVault02: UA Expansion
+CAIncubationVault03: UA Expansion
+CANewArrivalRegistrationEtank: UA Expansion
+VDOCortexCPUBattleHammer: UA Expansion
+VDOCompressionChamberArtifact: UA Expansion

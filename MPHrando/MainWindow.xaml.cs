@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Runtime.Serialization.Formatters;
+using System.Collections.ObjectModel;
 
 namespace MPHrandomizer
 {
@@ -55,7 +56,6 @@ namespace MPHrandomizer
         byte artifactModel = 0x00;
         byte[] linkedEntity = { 0xFF, 0xFF };
         Random rnd = new Random();
-
         class EntityLocation
         {
             public string LocationName;
@@ -158,8 +158,8 @@ namespace MPHrandomizer
         public void fileSelect_click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            //fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
-            fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
+            fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
+            //fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
             DialogResult result = fbd.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -206,7 +206,7 @@ namespace MPHrandomizer
             //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
-                spoilerLog.WriteLine("MPHrando v0.2.0");
+                spoilerLog.WriteLine("MPHrando v0.2.2");
                 spoilerLog.WriteLine(logEntry);
                 }
             //}
@@ -493,7 +493,7 @@ namespace MPHrandomizer
                     break;
                 case 7:
                     //A Magma Drop
-                    if (locationHasItem[7] != 1 && beamToPlace[4] == 1)
+                    if (locationHasItem[7] != 1 && (beamToPlace[4] == 1 || MagmaDroptrickcheckbox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -506,7 +506,7 @@ namespace MPHrandomizer
                     break;
                 case 8:
                     //A Crash Site
-                    if (locationHasItem[8] != 1 && beamToPlace[4] == 1)
+                    if (locationHasItem[8] != 1 && (beamToPlace[4] == 1 || Crashsitetrickcheckbox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -636,7 +636,7 @@ namespace MPHrandomizer
                     break;
                 case 18:
                     //CA Data Shrine 02 Volt Driver
-                    if (locationHasItem[18] != 1 && beamToPlace[2] == 1)
+                    if (locationHasItem[18] != 1 && (beamToPlace[2] == 1 || datashrine02trickcheckbox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -662,7 +662,7 @@ namespace MPHrandomizer
                     break;
                 case 20:
                     //CA Data Shrine 02 UAE
-                    if (locationHasItem[20] != 1 && beamToPlace[2] == 1)
+                    if (locationHasItem[20] != 1 && (beamToPlace[2] == 1 || datashrine02trickcheckbox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -701,7 +701,7 @@ namespace MPHrandomizer
                     break;
                 case 23:
                     //CA Transfer Lock
-                    if (locationHasItem[23] != 1 && beamToPlace[1] == 1)
+                    if (locationHasItem[23] != 1 && (beamToPlace[1] == 1 || DeepCAtrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -714,7 +714,7 @@ namespace MPHrandomizer
                     break;
                 case 24:
                     //CA Docking Bay Artifact
-                    if (locationHasItem[24] != 1 && beamToPlace[1] == 1)
+                    if (locationHasItem[24] != 1 && (beamToPlace[1] == 1 || DeepCAtrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -727,7 +727,7 @@ namespace MPHrandomizer
                     break;
                 case 25:
                     //CA Docking Bay UAE
-                    if (locationHasItem[25] != 1 && beamToPlace[1] == 1)
+                    if (locationHasItem[25] != 1 && (beamToPlace[1] == 1 || DeepCAtrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -740,7 +740,7 @@ namespace MPHrandomizer
                     break;
                 case 26:
                     //CA Incubation Vault 01
-                    if (locationHasItem[26] != 1 && beamToPlace[1] == 1)
+                    if (locationHasItem[26] != 1 && (beamToPlace[1] == 1 || DeepCAtrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -753,7 +753,7 @@ namespace MPHrandomizer
                     break;
                 case 27:
                     //CA Incubation Vault 02
-                    if (locationHasItem[27] != 1 && beamToPlace[1] == 1)
+                    if (locationHasItem[27] != 1 && (beamToPlace[1] == 1 || DeepCAtrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -766,7 +766,7 @@ namespace MPHrandomizer
                     break;
                 case 28:
                     //CA Incubation Vault 03
-                    if (locationHasItem[28] != 1 && beamToPlace[1] == 1)
+                    if (locationHasItem[28] != 1 && (beamToPlace[1] == 1 || DeepCAtrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -779,7 +779,7 @@ namespace MPHrandomizer
                     break;
                 case 29:
                     //CA New Arrival Registration Artifact
-                    if (locationHasItem[29] != 1 && beamToPlace[1] == 1 && beamToPlace[6] == 1)
+                    if (locationHasItem[29] != 1 && ((beamToPlace[1] == 1 && beamToPlace[6] == 1) || (beamToPlace[6] == 1 && DeepCAtrickCheckBox.IsChecked == true)))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -792,7 +792,7 @@ namespace MPHrandomizer
                     break;
                 case 30:
                     //CA New Arrival Registration E tank
-                    if (locationHasItem[30] != 1 && beamToPlace[1] == 1 && beamToPlace[6] == 1)
+                    if (locationHasItem[30] != 1 && ((beamToPlace[1] == 1 && beamToPlace[6] == 1) || (beamToPlace[6] == 1 && DeepCAtrickCheckBox.IsChecked == true)))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -831,7 +831,7 @@ namespace MPHrandomizer
                     break;
                 case 33:
                     //VDO Cortex CPU Battle Hammer
-                    if (locationHasItem[33] != 1 && beamToPlace[2] == 1)
+                    if (locationHasItem[33] != 1 && (beamToPlace[2] == 1 || CortexCPUtrickCheckBox.IsChecked == true))
                     {
                         linkedEntity[0] = 0x15;
                         linkedEntity[1] = 0x00;
@@ -859,7 +859,7 @@ namespace MPHrandomizer
                     break;
                 case 35:
                     //VDO Compression Chamber Artifact
-                    if (locationHasItem[35] != 1 && beamToPlace[2] == 1)
+                    if (locationHasItem[35] != 1 && (beamToPlace[2] == 1 || CompressionChambertrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -872,7 +872,7 @@ namespace MPHrandomizer
                     break;
                 case 36:
                     //VDO Compression Chamber UAE
-                    if (locationHasItem[36] != 1 && beamToPlace[2] == 1)
+                    if (locationHasItem[36] != 1 && (beamToPlace[2] == 1 || CompressionChambertrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -976,7 +976,7 @@ namespace MPHrandomizer
                     break;
                 case 44:
                     //Arc Ice Hive Artifact
-                    if (locationHasItem[44] != 1 && beamToPlace[4] == 1)
+                    if (locationHasItem[44] != 1 && (beamToPlace[4] == 1 || IcehiveCubbietrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -1015,7 +1015,7 @@ namespace MPHrandomizer
                     break;
                 case 47:
                     //Arc Ice Hive Missile
-                    if (locationHasItem[47] != 1 && beamToPlace[4] == 1)
+                    if (locationHasItem[47] != 1 && (beamToPlace[4] == 1 || IcehivemissiletrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -1028,7 +1028,7 @@ namespace MPHrandomizer
                     break;
                 case 48:
                     //Arc Ice Hive UAE 2
-                    if (locationHasItem[48] != 1 && beamToPlace[4] == 1)
+                    if (locationHasItem[48] != 1 && (beamToPlace[4] == 1 || IcehiveCubbietrickCheckBox.IsChecked == true))
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
@@ -1371,11 +1371,12 @@ namespace MPHrandomizer
             //TODO add any artifacts that are obtainable without beams to this list
             bool hasrolled = false;
             int ran = 0;
-            int locationExcludedNum = 5;
+            //locationExcludedNum controls how many beams are placed in locations that do not require a beam to get to.
+            int locationExcludedNum = RandomNumberGenerator(2);
             while (locationExcludedNum != 0)
             {
                 if (hasrolled == false){
-                    ran = RandomNumberGenerator(7);
+                    ran = RandomNumberGenerator(31);
                     hasrolled = true;
                 }
                 if (starterLocationExcluded[ran] != 1)
@@ -1437,6 +1438,24 @@ namespace MPHrandomizer
                             }
                             break;
                         case 7:
+                            if (locationHasItem[7] != 1 && MagmaDroptrickcheckbox.IsChecked == true)
+                            {
+                                locationHasItem[7] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 8:
+                            if (locationHasItem[8] != 1 && Crashsitetrickcheckbox.IsChecked == true)
+                            {
+                                locationHasItem[8] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 9:
                             if (locationHasItem[16] != 1)
                             {
                                 locationHasItem[16] = 1;
@@ -1445,7 +1464,7 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 8:
+                        case 10:
                             if (locationHasItem[17] != 1)
                             {
                                 locationHasItem[17] = 1;
@@ -1454,7 +1473,16 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 9:
+                        case 11:
+                            if (locationHasItem[18] != 1 && datashrine02trickcheckbox.IsChecked == true)
+                            {
+                                locationHasItem[18] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 12:
                             if (locationHasItem[19] != 1)
                             {
                                 locationHasItem[19] = 1;
@@ -1463,7 +1491,16 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 10:
+                        case 13:
+                            if (locationHasItem[20] != 1 && datashrine02trickcheckbox.IsChecked == true)
+                            {
+                                locationHasItem[20] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 14:
                             if (locationHasItem[21] != 1)
                             {
                                 locationHasItem[21] = 1;
@@ -1472,7 +1509,7 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 11:
+                        case 15:
                             if (locationHasItem[22] != 1)
                             {
                                 locationHasItem[22] = 1;
@@ -1481,7 +1518,61 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 12:
+                        case 16:
+                            if (locationHasItem[23] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[23] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 17:
+                            if (locationHasItem[24] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[24] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 18:
+                            if (locationHasItem[25] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[25] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 19:
+                            if (locationHasItem[26] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[26] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 20:
+                            if (locationHasItem[27] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[27] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 21:
+                            if (locationHasItem[28] != 1 && DeepCAtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[28] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 22:
                             if (locationHasItem[31] != 1)
                             {
                                 locationHasItem[31] = 1;
@@ -1490,7 +1581,16 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 13:
+                        case 23:
+                            if (locationHasItem[33] != 1 && CortexCPUtrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[33] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 24:
                             if (locationHasItem[34] != 1)
                             {
                                 locationHasItem[34] = 1;
@@ -1499,7 +1599,25 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 14:
+                        case 25:
+                            if (locationHasItem[35] != 1 && CompressionChambertrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[35] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 26:
+                            if (locationHasItem[36] != 1 && CompressionChambertrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[36] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 27:
                             if (locationHasItem[42] != 1)
                             {
                                 locationHasItem[42] = 1;
@@ -1508,10 +1626,37 @@ namespace MPHrandomizer
                                 hasrolled = false;
                             }
                             break;
-                        case 15:
+                        case 28:
                             if (locationHasItem[43] != 1)
                             {
                                 locationHasItem[43] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 29:
+                            if (locationHasItem[44] != 1 && IcehiveCubbietrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[44] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 30:
+                            if (locationHasItem[47] != 1 && IcehivemissiletrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[47] = 1;
+                                starterLocationExcluded[ran] = 1;
+                                locationExcludedNum--;
+                                hasrolled = false;
+                            }
+                            break;
+                        case 31:
+                            if (locationHasItem[48] != 1 && IcehiveCubbietrickCheckBox.IsChecked == true)
+                            {
+                                locationHasItem[48] = 1;
                                 starterLocationExcluded[ran] = 1;
                                 locationExcludedNum--;
                                 hasrolled = false;
