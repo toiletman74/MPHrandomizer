@@ -27,9 +27,9 @@
                         <ListBox x:Name="QOLlistbox">
                             <ListBoxItem>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Option 1"/>
+                                    <TextBlock Text="Disable Celestial Archives pop-ups"/>
                                     <Grid Width="130"/>
-                                    <CheckBox x:Name="Option1CheckBox"/>
+                                    <CheckBox x:Name="disablecapopupcheckbox"/>
                                 </StackPanel>
                             </ListBoxItem>
                             <ListBoxItem>

@@ -158,8 +158,8 @@ namespace MPHrandomizer
         public void fileSelect_click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            //fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
-            fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
+            fbd.SelectedPath = System.Windows.Forms.Application.StartupPath;
+            //fbd.SelectedPath = "C:\\Users\\Lenka\\Desktop\\Other stuff\\Projects\\MPH moding tools\\MphRead-0.22.0.0-win\\files\\AMHE1\\levels\\entities";
             DialogResult result = fbd.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -206,23 +206,112 @@ namespace MPHrandomizer
             //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
-                spoilerLog.WriteLine("MPHrando v0.2.2");
+                spoilerLog.WriteLine("MPHrando v0.2.4");
                 spoilerLog.WriteLine(logEntry);
                 }
             //}
-            //this is the sic transit magmaul barrier patch
+            //this is the sic transit magmaul barrier patch and the tutorial pop-up disabler
             //TODO add a patch to make the door in front of slech v4 a magmaul door and the door to slench v3 to be a battlehammer door to prevent softlocks
-            //TODO add the planet patch to here if possible
-            //TODO patch the key frames for fault line and the room with the lava golem to send the setactive message with the true parameter to the item location
-            string fullPath = FilePath.pathEntityFldr + "\\unit4_rm3_Ent.bin";
-            FileStream ws = new FileStream(fullPath, FileMode.Open, FileAccess.Write);
-            StreamWriter writeStream = new StreamWriter(ws);
-            writeStream.BaseStream.Seek(20316, SeekOrigin.Current);
-            writeStream.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+            using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit4_rm3_Ent.bin", FileMode.Open, FileAccess.Write))
+            {
+                using (StreamWriter writer = new StreamWriter(fileStream))
+                {
+                    writer.BaseStream.Seek(20316, SeekOrigin.Begin);
+                    writer.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+                    writer.Close();
+                }
+                fileStream.Close();
+            }
+            if (disablecapopupcheckbox.IsChecked == true)
+            {
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_Land_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(4662, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_RM1_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(11646, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_RM1_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(12450, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_C3_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(2238, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x00 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+            }
+            //this is here to reenable the celestial archives pop-ups if anyone wants them back for some reason...
+            if (disablecapopupcheckbox.IsChecked == false)
+            {
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_Land_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(4662, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x01 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_RM1_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(11646, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x01 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_RM1_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(12450, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x01 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit2_C3_Ent.bin", FileMode.Open, FileAccess.Write))
+                {
+                    using (StreamWriter writer = new StreamWriter(fileStream))
+                    {
+                        writer.BaseStream.Seek(2238, SeekOrigin.Begin);
+                        writer.BaseStream.Write(new byte[] { 0x01 }, 0, 1);
+                        writer.Close();
+                    }
+                    fileStream.Close();
+                }
+            }
             //fullPath = FilePath.pathEntityFldr + "\\unit1_RM1_Ent.bin";
             //writeStream.BaseStream.Seek(27116, SeekOrigin.Begin);
             //writeStream.BaseStream.Write(new byte[] { 0x02 }, 0, 1);
-            writeStream.Close();
             RollBeams();
             textblock.Text = "Done!";
         }
