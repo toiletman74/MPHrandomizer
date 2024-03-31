@@ -9,14 +9,23 @@ Grab a fresh copy from the releases on the right!
 
 You will need a program that can unpack and repack nds roms.
 
- 1. Unpack a Metroid Prime Hunters Rev1 USA rom. I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**.  The addresses for these entity files might be the same across different MPH releases, but for now I'm sticking with Rev1 until I find out.
- 2. Open up MPHrando and click "Browse for entities folder", then navigate to your unpacked rom. Select the "entities" folder in data\levels.
- 3. Enter a seed value.
- 4. Press randomize.
- 5. Repack your MPH rom.
- And thats it!
+ 1. Download the **[deltapatcher](https://www.romhacking.net/utilities/704/)**
+
+ 2. Download MPHallPlanetsOpenPatch.xdelta from above and then using the delta patcher, patch your Metroid Prime Hunters Rev1 USA rom.
+
+ 3. Unpack the rom. I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**.
+
+ --Everything above this line only needs to be done one time! If you want a new seed you only need to do the steps below!--
+
+ 4. Open up MPHrando and click "Browse for entities folder", then navigate to your unpacked rom. Select the "entities" folder in data\levels.
+
+ 5. Enter a seed value.
+
+ 6. Press randomize.
+
+ 7. Repack your MPH rom. Using dslazy or whatever you use to unpack your roms.
  
- If you need help, I made a **[video](https://www.youtube.com/watch?v=J4i4qoCch90)** showing the instructions.
+ And thats it!
 
 # Things to note
 
