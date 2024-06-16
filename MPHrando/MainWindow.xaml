@@ -28,7 +28,7 @@
                             <ListBoxItem>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Disable Celestial Archives pop-ups"/>
-                                    <Grid Width="130"/>
+                                    <Grid Width="80"/>
                                     <CheckBox x:Name="disablecapopupcheckbox"/>
                                 </StackPanel>
                             </ListBoxItem>
@@ -48,8 +48,8 @@
                             </ListBoxItem>
                         </ListBox>
                     </Expander>
-                    <Expander Header="Tricks">
-                        <ListBox x:Name="TricksListBox">
+                        <Expander Header="Tricks">
+                            <ListBox x:Name="TricksListBox">
                                 <ListBoxItem ToolTip="If you're lucky you can shoot at the Judicator force field and have it's shot bounce off the walls in such a way that it hits itself. &#x0a;Otherwise there's an out of bounds clip that's possible by using a bomb jump clip.">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Magma Drop without Judicator"/>
@@ -72,12 +72,12 @@
                                     </StackPanel>
                                 </ListBoxItem>
                                 <ListBoxItem ToolTip="It is possible to clip into the inner room in Data Shrine 02 using a charged missile. &#x0a;The room's visuals however do not load so you have to navigate blindly to collect the two items.">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Inner Data Shrine 02 w/o battlehammer"/>
-                                    <Grid Width="52"/>
-                                    <CheckBox x:Name="datashrine02trickcheckbox"/>
-                                </StackPanel>
-                            </ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Inner Data Shrine 02 w/o battlehammer"/>
+                                        <Grid Width="52"/>
+                                        <CheckBox x:Name="datashrine02trickcheckbox"/>
+                                    </StackPanel>
+                                </ListBoxItem>
                                 <ListBoxItem ToolTip="It's possible to skip the Volt Driver force field in Synergy Core with a bomb jump, &#x0a;then with a charged missile you can clip into the room that teleports you into Transfer Lock bypassing the Volt Driver door.">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Deep Celestial Archives w/o Volt Driver"/>
@@ -121,7 +121,7 @@
                                     </StackPanel>
                                 </ListBoxItem>
                             </ListBox>
-                    </Expander>
+                        </Expander>
                     </StackPanel>
                 </Grid>
             </TabItem>

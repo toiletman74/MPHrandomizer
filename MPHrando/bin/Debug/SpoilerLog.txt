@@ -1,60 +1,60 @@
-MPHrando v0.2.2
-Seed: 696969
-AHighGroundMissile: Magmaul
-CANewArrivalRegistrationArtifact: Battlehammer
-CACelestialGateway: Imperialist
+MPHrando v0.2.4
+Seed: 998
+CADataShrine02VoltDriver: Volt Driver
+CADockingBayArtifact: Magmaul
+ARCFaultLineImperialist: Imperialist
 ARCFrostLabyrinthArtifact: Shock Coil
-VDOWeaponsComplexArtifact2: Volt Driver
-VDOFuelStackArtifact: Judicator
-CADockingBayArtifact: Artifact00
-CAIncubationVault01: Artifact01
-AMagmaDrop: Artifact02
-CAIncubationVault02: Artifact10
-CADockingBayUAE: Artifact11
-CAIncubationVault03: Artifact12
-ARCSanctorusArtifact: Artifact20
-ARCIceHiveMissile: Artifact21
-CADataShrine02UAE: Artifact22
-VDOCompressionChamberArtifact: Artifact30
-ARCFaultLineArtifact: Artifact31
-ARCSubterraneanMissile: Artifact32
-AAlinosPerch: Artifact40
-CANewArrivalRegistrationEtank: Artifact41
-ARCFaultLineImperialist: Artifact42
-ARCIceHiveJudicator: Artifact50
-CADataShrine01Etank: Artifact51
-VDOWeaponsComplexArtifact1: Artifact52
-VDOCortexCPUBattleHammer: Artifact60
-ACouncilChamberEtank: Artifact61
-VDOCortexCPUMissile: Artifact62
-VDOCompressionChamberUAE: Artifact70
-AHighGroundArtifact: Artifact71
-CATransferLock: Artifact72
-AElderPassage: Energy Tank
-ACrashSite: Energy Tank
-ARCSicTransitEtank: Energy Tank
-VDOStasisBunkerArtifact1: Missile Expansion
+VDOWeaponsComplexArtifact1: Battlehammer
+VDOWeaponsComplexArtifact2: Judicator
+CADataShrine01Artifact: Artifact00
+ARCIceHiveJudicator: Artifact01
+CANewArrivalRegistrationEtank: Artifact02
+CADockingBayUAE: Artifact10
+AElderPassage: Artifact11
+VDOCortexCPUBattleHammer: Artifact12
+ARCFrostLabyrinthEtank: Artifact20
+ARCIceHiveUAE1: Artifact21
+AAlinosPerch: Artifact22
+VDOCortexCPUMissile: Artifact30
+CADataShrine03: Artifact31
+AHighGroundArtifact: Artifact32
+CADataShrine01Etank: Artifact40
+CASynergyCore: Artifact41
+AHighGroundMissile: Artifact42
+AMagmaDrop: Artifact50
+ARCDripMoat: Artifact51
+ACrashSite: Artifact52
+VDOCompressionChamberArtifact: Artifact60
+AProcessorCore: Artifact61
+VDOFuelStackArtifact: Artifact62
+VDOStasisBunkerArtifact1: Artifact70
+ARCFaultLineArtifact: Artifact71
+ACouncilChamberEtank: Artifact72
+ARCIceHiveMissile: Missile Expansion
+CATransferLock: Missile Expansion
+VDOCompressionChamberUAE: Energy Tank
 VDOStasisBunkerArtifact2: Energy Tank
-ARCSicTransitArtifact: Missile Expansion
-OGoreaPeek: Missile Expansion
-CADataShrine03: Energy Tank
-ARCFrostLabyrinthEtank: Missile Expansion
-VDOStasisBunkerUAE: Missile Expansion
-VDOFuelStackMissile: Missile Expansion
-ARCIceHiveArtifact: Energy Tank
-ARCIceHiveUAE1: Energy Tank
-ACouncilChamberArtifact: Missile Expansion
-ACouncilChamberMagmaul: UA Expansion
 ARCIceHiveUAE2: Missile Expansion
-AProcessorCore: UA Expansion
-ARCSanctorusUAE: Missile Expansion
-ARCDripMoat: UA Expansion
-ARCSubterraneanArtifact: UA Expansion
-AAlinosGateway: UA Expansion
-AEchoHallEtank: UA Expansion
-AEchoHallArtifact: UA Expansion
-APistonCave: UA Expansion
-CADataShrine01Artifact: UA Expansion
-CADataShrine02VoltDriver: UA Expansion
+ACouncilChamberArtifact: Missile Expansion
+ARCSanctorusArtifact: Energy Tank
+ARCSanctorusUAE: Energy Tank
+ARCIceHiveArtifact: Energy Tank
+ACouncilChamberMagmaul: Missile Expansion
+APistonCave: Missile Expansion
+VDOStasisBunkerUAE: Energy Tank
+ARCSubterraneanArtifact: Energy Tank
+VDOFuelStackMissile: Missile Expansion
+CACelestialGateway: Missile Expansion
 CADataShrine02Missile: UA Expansion
-CASynergyCore: UA Expansion
+CAIncubationVault01: Missile Expansion
+ARCSubterraneanMissile: UA Expansion
+OGoreaPeek: UA Expansion
+CADataShrine02UAE: UA Expansion
+ARCSicTransitEtank: UA Expansion
+AAlinosGateway: UA Expansion
+ARCSicTransitArtifact: UA Expansion
+AEchoHallEtank: UA Expansion
+CAIncubationVault02: UA Expansion
+AEchoHallArtifact: UA Expansion
+CAIncubationVault03: UA Expansion
+CANewArrivalRegistrationArtifact: UA Expansion

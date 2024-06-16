@@ -55,6 +55,7 @@ namespace MPHrandomizer
         byte artifactID = 0x00;
         byte artifactModel = 0x00;
         byte[] linkedEntity = { 0xFF, 0xFF };
+        int locationRollCounter;
         Random rnd = new Random();
         class EntityLocation
         {
@@ -144,8 +145,8 @@ namespace MPHrandomizer
                 {53 , new EntityLocation("ARCSanctorusArtifact", "\\unit4_rm4_Ent.bin", 2256, 0x01, 0x00, 38, 18, 0, 0, 0, 0)},
                 {54 , new EntityLocation("ARCSanctorusUAE", "\\unit4_rm4_Ent.bin", 12176, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
                 {55 , new EntityLocation("ARCDripMoat", "\\unit4_C1_Ent.bin", 23796, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
-                {56 , new EntityLocation("ARCSubterraneanArtifact", "\\Unit4_RM2_Ent.bin", 1836, 0x01, 0x00, 56, 18, 58, 18, 0, 0)},
-                {57 , new EntityLocation("ARCSubterraneanMissile", "\\Unit4_RM2_Ent.bin", 7804, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
+                {56 , new EntityLocation("ARCSubterraneanArtifact", "\\Unit4_RM2_Ent.bin", 1836, 0x01, 0x00, 58, 16, 56, 18, 0, 0)}, //TODO needs the same fix as above
+                {57 , new EntityLocation("ARCSubterraneanMissile", "\\Unit4_RM2_Ent.bin", 7804, 0x01, 0x01, 56, 18, 0, 0, 0, 0)},
                 {58 , new EntityLocation("OGoreaPeek", "\\Gorea_Peek_Ent.bin", 268, 0x01, 0x01, 0, 0, 0, 0, 0, 0)}
             };
 
@@ -206,6 +207,7 @@ namespace MPHrandomizer
             //{
                 using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
                 {
+                //fixed the subterranean thing in a ghetto way
                 spoilerLog.WriteLine("MPHrando v0.2.4");
                 spoilerLog.WriteLine(logEntry);
                 }
@@ -523,10 +525,23 @@ namespace MPHrandomizer
                 {
                     location = 5; //this should make high ground always get an artifact in the artifact location.
                 } //it's just here because I haven't done the trigger thing yet. pretty ghetto fix
+                locationRollCounter = 0;
             }
             else
             {
                 location++;
+                locationRollCounter++;
+                if (locationRollCounter == 58)
+                {
+                    //this code here is a fall back just incase there are no locations open while placing beams. If that happens it'll reopen the starting
+                    //locations for one beam placement and then close them again
+                    hasRolled = false;
+                    FixExclusions();
+                    ExcludePlanets(0, 0);
+                    RollLocation(item);
+                    LocationExclude();
+                    return;
+                }
             }
             switch (location)
             {
@@ -1550,7 +1565,7 @@ namespace MPHrandomizer
             }
             if (locationHasItem[24] != 1 && DeepCAtrickCheckBox.IsChecked == true)
             {
-                locationHasItem[17] = 1;
+                locationHasItem[24] = 1;
             }
             if (locationHasItem[25] != 1 && DeepCAtrickCheckBox.IsChecked == true)
             {
@@ -1612,7 +1627,7 @@ namespace MPHrandomizer
 
         public void ExcludePlanets(int beam, int location)
         {
-            if (location <= 14)
+            if (location >= 1 && location <= 14)
             {
                 planetHasItems[1]++;
             }
