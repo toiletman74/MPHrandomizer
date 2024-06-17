@@ -42,4 +42,8 @@ You will need a program that can unpack and repack nds roms.
 Feel free to join the Official **[MPHrandoServer](https://discord.gg/zECrj43DgU)** and shoot me a message!
 I would love to hear about how you feel about item placement or ideas for features to be added
 
+# Developing your own MPH randomizer:
+Feel free to use code from this for your own MPH rendomizer but if you do so please give me credit somewhere.
+Also I won't be accepting any commits to this repository because this is a project that I'm having fun making on my own. Feel free to make a fork though.
+
 # Enjoy!
