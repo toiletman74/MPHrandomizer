@@ -1,0 +1,60 @@
+MPHrando v0.2.3
+Seed: 747474
+VDOCortexCPUMissile: Volt Driver
+CADockingBayUAE: Magmaul
+CATransferLock: Battlehammer
+ARCFaultLineImperialist: Imperialist
+VDOWeaponsComplexArtifact2: Judicator
+ARCIceHiveArtifact: Shock Coil
+AHighGroundArtifact: Artifact00
+ARCSubterraneanArtifact: Artifact01
+CADockingBayArtifact: Artifact02
+ARCSicTransitArtifact: Artifact10
+ARCFrostLabyrinthEtank: Artifact11
+APistonCave: Artifact12
+CAIncubationVault03: Artifact20
+ARCIceHiveMissile: Artifact21
+CACelestialGateway: Artifact22
+ARCSicTransitEtank: Artifact30
+ARCDripMoat: Artifact31
+CASynergyCore: Artifact32
+CAIncubationVault01: Artifact40
+AEchoHallArtifact: Artifact41
+ACouncilChamberMagmaul: Artifact42
+ARCSubterraneanMissile: Artifact50
+ACouncilChamberArtifact: Artifact51
+CADataShrine01Artifact: Artifact52
+ARCFaultLineArtifact: Artifact60
+CADataShrine01Etank: Artifact61
+CANewArrivalRegistrationArtifact: Artifact62
+ARCSanctorusArtifact: Artifact70
+ARCIceHiveUAE2: Artifact71
+ARCIceHiveUAE1: Artifact72
+VDOFuelStackArtifact: Energy Tank
+AEchoHallEtank: Missile Expansion
+CADataShrine02VoltDriver: Energy Tank
+ARCFrostLabyrinthArtifact: Missile Expansion
+AElderPassage: Energy Tank
+VDOCompressionChamberUAE: Energy Tank
+ARCSanctorusUAE: Missile Expansion
+CANewArrivalRegistrationEtank: Energy Tank
+OGoreaPeek: Missile Expansion
+CADataShrine03: Energy Tank
+CADataShrine02Missile: Missile Expansion
+CADataShrine02UAE: Energy Tank
+ARCIceHiveJudicator: Missile Expansion
+VDOStasisBunkerArtifact1: UA Expansion
+ACrashSite: Missile Expansion
+AAlinosGateway: UA Expansion
+AAlinosPerch: Missile Expansion
+AHighGroundMissile: UA Expansion
+AMagmaDrop: Missile Expansion
+ACouncilChamberEtank: UA Expansion
+CAIncubationVault02: UA Expansion
+AProcessorCore: UA Expansion
+VDOWeaponsComplexArtifact1: UA Expansion
+VDOCortexCPUBattleHammer: UA Expansion
+VDOCompressionChamberArtifact: UA Expansion
+VDOStasisBunkerArtifact2: UA Expansion
+VDOStasisBunkerUAE: UA Expansion
+VDOFuelStackMissile: UA Expansion

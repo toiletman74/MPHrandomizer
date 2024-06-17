@@ -1,0 +1,60 @@
+MPHrando v0.2.4
+Seed: 998
+CADataShrine02VoltDriver: Volt Driver
+CADataShrine02Missile: Magmaul
+CANewArrivalRegistrationEtank: Imperialist
+VDOCortexCPUBattleHammer: Shock Coil
+ARCFaultLineImperialist: Battlehammer
+ACouncilChamberArtifact: Judicator
+VDOCompressionChamberUAE: Artifact00
+ARCDripMoat: Artifact01
+ACrashSite: Artifact02
+ARCIceHiveMissile: Artifact10
+VDOFuelStackMissile: Artifact11
+ARCFrostLabyrinthEtank: Artifact12
+VDOStasisBunkerArtifact1: Artifact20
+VDOStasisBunkerArtifact2: Artifact21
+VDOStasisBunkerUAE: Artifact22
+ARCIceHiveArtifact: Artifact30
+ARCIceHiveUAE2: Artifact31
+CADockingBayArtifact: Artifact32
+VDOFuelStackArtifact: Artifact40
+VDOWeaponsComplexArtifact2: Artifact41
+VDOCortexCPUBattleHammer: Artifact42
+ARCFaultLineArtifact: Artifact50
+ARCSicTransitEtank: Artifact51
+ARCSubterraneanMissile: Artifact52
+VDOCortexCPUMissile: Artifact60
+VDOCompressionChamberArtifact: Artifact61
+CATransferLock: Artifact62
+ARCSanctorusArtifact: Artifact70
+AHighGroundArtifact: Artifact71
+ARCSanctorusUAE: Artifact72
+OGoreaPeek: Energy Tank
+ARCSicTransitArtifact: Missile Expansion
+AEchoHallEtank: Energy Tank
+CADataShrine02UAE: Missile Expansion
+ARCIceHiveJudicator: Missile Expansion
+ARCFaultLineImperialist: Missile Expansion
+ACouncilChamberMagmaul: Energy Tank
+CADockingBayUAE: Missile Expansion
+CADataShrine01Etank: Missile Expansion
+ARCIceHiveUAE1: Missile Expansion
+ARCFrostLabyrinthArtifact: Energy Tank
+CACelestialGateway: Energy Tank
+CAIncubationVault01: Missile Expansion
+ARCSubterraneanArtifact: Missile Expansion
+CAIncubationVault02: UA Expansion
+AElderPassage: Energy Tank
+AMagmaDrop: UA Expansion
+CAIncubationVault03: Energy Tank
+AAlinosGateway: UA Expansion
+AEchoHallArtifact: UA Expansion
+AAlinosPerch: UA Expansion
+AHighGroundMissile: UA Expansion
+ACouncilChamberEtank: UA Expansion
+ACouncilChamberArtifact: UA Expansion
+CANewArrivalRegistrationEtank: UA Expansion
+CANewArrivalRegistrationArtifact: UA Expansion
+AProcessorCore: UA Expansion
+APistonCave: UA Expansion
