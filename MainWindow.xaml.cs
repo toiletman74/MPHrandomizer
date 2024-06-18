@@ -534,7 +534,10 @@ namespace MPHrandomizer
             }
             if (beamsToPlace == 0)
             {
-                FixExclusions();
+                if (MinimalLogicCheckBox.IsChecked != true)
+                {
+                    FixExclusions();
+                }
                 rollingBeams = false;
                 RollArtifacts();
             }

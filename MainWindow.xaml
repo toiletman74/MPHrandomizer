@@ -124,7 +124,7 @@
                                 <StackPanel Orientation="Horizontal">
                                   <TextBlock Text="Minimal Logic"/>
                                   <Grid Width="187"/>
-                                  <CheckBox x:Name="MinimalLogicCheckBox" IsChecked="True" IsEnabled="False"/>
+                                  <CheckBox x:Name="MinimalLogicCheckBox" IsChecked="False"/>
                                 </StackPanel>
                               </ListBoxItem>
                             </ListBox>
