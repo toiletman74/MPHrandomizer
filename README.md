@@ -7,23 +7,13 @@ Grab a fresh copy from the releases on the right!
 
 # How to Use
 
-You will need a program that can unpack and repack nds roms.
+ 1. Aquire the "Metroid Prime - Hunters (USA) (Rev 1).nds" rom of metroid prime hunters. This will not work with any other version! (Note: The file needs to be named "Metroid Prime - Hunters (USA) (Rev 1).nds" for the randomizer to work.)
+   
+ 2. Open MPHrando.
 
- 1. Download the **[deltapatcher](https://www.romhacking.net/utilities/704/)**
+ 3. Enter a seed value. (optional)
 
- 2. Download MPHallPlanetsOpenPatch.xdelta from above and then using the delta patcher, patch your Metroid Prime Hunters Rev1 USA rom.
-
- 3. Unpack the rom. I personally use **[dslazy](https://www.romhacking.net/utilities/793/)**.
-
- --Everything above this line only needs to be done one time! If you want a new seed you only need to do the steps below!--
-
- 4. Open up MPHrando and click "Browse for entities folder", then navigate to your unpacked rom. Select the "entities" folder in data\levels.
-
- 5. Enter a seed value.
-
- 6. Press randomize.
-
- 7. Repack your MPH rom. Using dslazy or whatever you use to unpack your roms.
+ 4. Press randomize.
  
  And thats it!
 
@@ -36,7 +26,9 @@ You will need a program that can unpack and repack nds roms.
 
  
  # Special Thanks
- Special thanks to NoneGiven and unknown for their work on **[MPHread](https://github.com/NoneGiven/MphRead)** without that I wouldn't have been able to figure out how to change items
+ Special thanks to NoneGiven and unknown for their work on **[MPHread](https://github.com/NoneGiven/MphRead)** without that I wouldn't have been able to figure out how to change items.
+
+ Special thanks to the developers of ndstool and the xdelta patcher. ndstool is used for unpacking and repacking the rom, the xdelta patcher is used for patching the game to have all planets open from the beginning.
 
 # If you need help, or just wanna give me some feedback:
 Feel free to join the Official **[MPHrandoServer](https://discord.gg/zECrj43DgU)** and shoot me a message!
