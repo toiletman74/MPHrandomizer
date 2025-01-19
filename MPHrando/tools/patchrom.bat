@@ -1,0 +1,1 @@
+%CD%\tools\xdelta.exe -d -f -s "%CD%\rom\Metroid Prime - Hunters (USA) (Rev 1).nds" "%CD%\patch\MPHallPlanetsOpenPatch.xdelta" "%CD%\rom\newrom.nds"

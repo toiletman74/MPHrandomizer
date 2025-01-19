@@ -10,8 +10,7 @@
         <TabControl>
             <TabItem Header="Main" Margin="0,0,0,0">
                 <Grid Background="White" Margin="-7,0,-8,0">
-                    <Button x:Name="fileSelect_btn" Click="fileSelect_click" Margin="10,204,10,54">Browse for entities folder...</Button>
-                    <Button x:Name ="randomize_btn" Click="Randomize_click" Margin="10,250,10,10" Grid.Column="0">Randomize</Button>
+                    <Button x:Name ="randomize_btn" Click="Randomize_click" Margin="10,213,10,10" Grid.Column="0" FontSize="40">Randomize</Button>
                     <TextBox x:Name ="seed_txtbox" Text="" Margin="10,57,10,213"/>
                     <TextBlock HorizontalAlignment="Center" Margin="0,36,0,0" TextWrapping="Wrap" Text="Seed" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Center" Margin="0,98,0,0" TextWrapping="Wrap" Text="Note: Don't put letters in here, it'll crash" VerticalAlignment="Top"/>

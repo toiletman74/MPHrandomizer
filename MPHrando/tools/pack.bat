@@ -1,0 +1,1 @@
+"%CD%\tools\ndstool.exe" -c "%CD%\rom\randomizedrom.nds" -9 unpacked_data/arm9.bin -7 unpacked_data/arm7.bin -y9 unpacked_data/y9.bin -y7 unpacked_data/y7.bin -d unpacked_data/data -y unpacked_data/overlay -t unpacked_data/banner.bin -h unpacked_data/header.bin
