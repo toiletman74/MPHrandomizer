@@ -14,6 +14,8 @@ Grab a fresh copy from the releases on the right!
  3. Enter a seed value. (optional)
 
  4. Press randomize.
+    
+ 5. The randomized rom will be in /rom. it's file name is the seed.
  
  And thats it!
 
