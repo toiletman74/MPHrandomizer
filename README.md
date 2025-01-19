@@ -7,7 +7,7 @@ Grab a fresh copy from the releases on the right!
 
 # How to Use
 
- 1. Aquire the "Metroid Prime - Hunters (USA) (Rev 1).nds" rom of metroid prime hunters. This will not work with any other version! (Note: The file needs to be named "Metroid Prime - Hunters (USA) (Rev 1).nds" for the randomizer to work.)
+ 1. Aquire the "Metroid Prime - Hunters (USA) (Rev 1).nds" rom of metroid prime hunters and place it in /rom. This will not work with any other version! (Note: The file needs to be named "Metroid Prime - Hunters (USA) (Rev 1).nds" for the randomizer to work.)
    
  2. Open MPHrando.
 
