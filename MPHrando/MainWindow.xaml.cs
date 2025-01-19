@@ -387,6 +387,8 @@ namespace MPHrandomizer
                     return false;
                 }
 
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "unpacked_data");
+
                 string unpackcommand = AppDomain.CurrentDomain.BaseDirectory + @"tools\unpack.bat";
 
                 // Set up the process start info
