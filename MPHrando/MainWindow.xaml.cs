@@ -36,6 +36,7 @@ namespace MPHrandomizer
         int address;
         int Planet;
         int itemsToPlace;
+        bool itemplaced;
         int missilesToPlace;
         int etankToPlace;
         int UAEToPlace;
@@ -51,13 +52,13 @@ namespace MPHrandomizer
         bool hasRolled;
         bool hasRolledBeam;
         bool hasRolledItem;
-        bool rollingBeams;
         int seed;
         int originalseed;
         byte artifactID = 0x00;
         byte artifactModel = 0x00;
         byte[] linkedEntity = { 0xFF, 0xFF };
         int locationRollCounter;
+        int ran = 0;
         Random rnd = new Random();
         class EntityLocation
         {
@@ -91,6 +92,9 @@ namespace MPHrandomizer
         }
             Dictionary<int, EntityLocation> EntityLocationDict = new Dictionary<int, EntityLocation>()
             {
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                //@Stores data about item locations@
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 //Location name, File name, Offset, Enabled, HasBase, NotifyEntityId, CollectedMessage, Message2Target, Message2, Message3Target, Message3
                 {1 , new EntityLocation("AAlinosGateway", "\\Unit1_Land_Ent.bin", 2024, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
                 {2 , new EntityLocation("AEchoHallEtank", "\\Unit1_C0_Ent.bin", 3400, 0x01, 0x00, 0, 0, 0, 0, 0, 0)},
@@ -162,11 +166,15 @@ namespace MPHrandomizer
         {
             if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"unpacked_data\data"))
             {
-                if (!planetpatch())
+                if (!RomExists())
                 {
                     return;
                 }
-                if (!unpackrom())
+                if (!Planetpatch())
+                {
+                    return;
+                }
+                if (!Unpackrom())
                 {
                     return;
                 }
@@ -200,22 +208,27 @@ namespace MPHrandomizer
             }
             //if (spoiler_chkbox.IsChecked ?? true)
             //{
-                if (File.Exists(System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt"))
-                {
-                    File.Delete(System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt");
-                }
+            if (File.Exists(System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt"))
+            {
+                File.Delete(System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt");
+            }
             //}
             string spoilerLogPath = System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt";
             string logEntry = "Seed: " + Convert.ToString(seed);
             //if (spoiler_chkbox.IsChecked ?? true)
             //{
-                using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
-                {
+            using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
+            {
                 //fixed the subterranean thing in a ghetto way
-                spoilerLog.WriteLine("MPHrando v0.2.6");
+                spoilerLog.WriteLine("MPHrando v0.2.8");
                 spoilerLog.WriteLine(logEntry);
-                }
+            }
             //}
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Apply patches to the game. These include:                                                   @
+            //@Removing a barrier in sictransit that stops the player from going in the magmaul door       @
+            //@Disabling the popups in celestial archives and the one on arcterra after getting imperialist@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //this is the sic transit magmaul barrier patch and the tutorial pop-up disabler
             //TODO add a patch to make the door in front of slech v4 a magmaul door and the door to slench v3 to be a battlehammer door to prevent softlocks
             using (FileStream fileStream = new FileStream(FilePath.pathEntityFldr + "\\unit4_rm3_Ent.bin", FileMode.Open, FileAccess.Write))
@@ -318,120 +331,94 @@ namespace MPHrandomizer
             //fullPath = FilePath.pathEntityFldr + "\\unit1_RM1_Ent.bin";
             //writeStream.BaseStream.Seek(27116, SeekOrigin.Begin);
             //writeStream.BaseStream.Write(new byte[] { 0x02 }, 0, 1);
-            RollBeams();
-            packrom();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Controls what items are rolled in what order@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            while (beamsToPlace != 0)
+            {
+                RollBeams();
+            }
+            if (MinimalLogicCheckBox.IsChecked != true)
+            {
+                FixExclusions();
+            }
+            while (artifactsToPlace != 0)
+            { 
+                RollArtifacts();
+            }
+            while (itemsToPlace != 0)
+            {
+                RollItems();
+            }
+            Packrom();
             textblock.Text = "Done!";
         }
 
-        public void RollItems()
+        public bool RomExists()
         {
-            while (itemsToPlace != 0)
+            string[] ndsFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\rom", "*.nds");
+            if (ndsFiles.Length == 0)
             {
-                hasRolled = false;
-                if (hasRolledItem == false)
-                {
-                randomnum = RandomNumberGenerator(3);
-                }
-                else
-                { randomnum++; }
-                switch (randomnum)
-                {
-                    case 1:
-                        //place e-tank
-                        if (etankToPlace > 0)
-                        {
-                            itemsToPlace--;
-                            etankToPlace--;
-                            RollLocation(4);
-                        }
-                        else { hasRolledItem = true; }
-                        break;
-                    case 2:
-                        //place missile expansion
-                        if (missilesToPlace > 0)
-                        {
-                            itemsToPlace--;
-                            missilesToPlace--;
-                            RollLocation(6);
-                        }
-                        else { hasRolledItem = true; }
-                        break;
-                    case 3:
-                        //place UAE
-                        if (UAEToPlace > 0)
-                        {
-                            itemsToPlace--;
-                            UAEToPlace--;
-                            RollLocation(18);
-                        }
-                        else { hasRolledItem = true; }
-                        break;
-                    default:
-                        randomnum = 0;
-                        break;
-                }
+                System.Windows.Forms.MessageBox.Show("No metroid prime hunters ROM found in the /rom folder. Please add a ROM.", "No ROM Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
-        public bool unpackrom()
+        public bool Unpackrom()
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@unpacks the rom using ndstool@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             string programPath = "cmd.exe";
-            //if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"unpacked_data\data"))
-            //{
-                Process unpackprocess = new Process();
+            Process unpackprocess = new Process();
+            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "unpacked_data");
+            string unpackcommand = AppDomain.CurrentDomain.BaseDirectory + @"tools\unpack.bat";
 
-                string[] ndsFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\rom", "*.nds");
-                if (ndsFiles.Length == 0)
+            // Set up the process start info
+            unpackprocess.StartInfo.FileName = programPath;
+            unpackprocess.StartInfo.Arguments = "/C" + unpackcommand; // /C tells cmd to run the command and then exit
+            unpackprocess.StartInfo.RedirectStandardOutput = true; // Redirect output
+            unpackprocess.StartInfo.RedirectStandardError = true;  // Redirect error
+            unpackprocess.StartInfo.UseShellExecute = false;       // Required for redirection
+            try
+            {
+                // Start the process
+                unpackprocess.Start();
+
+                // Read the output
+                string error = unpackprocess.StandardError.ReadToEnd();
+
+                // Wait for the process to finish
+                unpackprocess.WaitForExit();
+
+                // Display any errors
+                if (!string.IsNullOrEmpty(error))
                 {
-                    System.Windows.Forms.MessageBox.Show("No metroid prime hunters ROM found in the /rom folder. Please add a ROM.", "No ROM Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    System.Windows.Forms.MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
-
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "unpacked_data");
-
-                string unpackcommand = AppDomain.CurrentDomain.BaseDirectory + @"tools\unpack.bat";
-
-                // Set up the process start info
-                unpackprocess.StartInfo.FileName = programPath;
-                unpackprocess.StartInfo.Arguments = "/C" + unpackcommand; // /C tells cmd to run the command and then exit
-                unpackprocess.StartInfo.RedirectStandardOutput = true; // Redirect output
-                unpackprocess.StartInfo.RedirectStandardError = true;  // Redirect error
-                unpackprocess.StartInfo.UseShellExecute = false;       // Required for redirection
-                try
-                {
-                    // Start the process
-                    unpackprocess.Start();
-
-                    // Read the output
-                    string error = unpackprocess.StandardError.ReadToEnd();
-
-                    // Wait for the process to finish
-                    unpackprocess.WaitForExit();
-
-                    // Display any errors
-                    if (!string.IsNullOrEmpty(error))
-                    {
-                        System.Windows.Forms.MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
-                    unpackprocess.Close();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    return false;
-                }
-            //}
-            //return true;
+                unpackprocess.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
+            }
         }
 
-        public void packrom()
+        public void Packrom()
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@repacks the rom using ndstool@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             string programPath = "cmd.exe";
             Process packprocess = new Process();
             string packcommand = AppDomain.CurrentDomain.BaseDirectory + @"tools\pack.bat";
-            Console.WriteLine(packcommand);
 
             // Set up the process start info
             packprocess.StartInfo.FileName = programPath;
@@ -467,124 +454,141 @@ namespace MPHrandomizer
             string sourcePath = System.IO.Path.Combine(folderPath, "randomizedrom.nds");
             string destinationPath = System.IO.Path.Combine(folderPath, originalseed + ".nds");
             File.Move(sourcePath, destinationPath);
-            Console.WriteLine("File deleted successfully.");
             File.Delete(folderPath + "newrom.nds");
             File.Delete(sourcePath);
         }
 
-        public bool planetpatch()
+        public bool Planetpatch()
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Patches arm9.bin to allow all planets to be accessable from the beginning@
+            //@We do this using an xdelta patch                                         @
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             string programPath = "cmd.exe";
-            //if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"unpacked_data\data"))
-            //{
-                Process unpackprocess = new Process();
+            Process patchprocess = new Process();
+            string patchcommand = AppDomain.CurrentDomain.BaseDirectory + @"tools\patchrom.bat";
 
-                string[] ndsFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\rom", "Metroid Prime - Hunters (USA) (Rev 1).nds");
-                if (ndsFiles.Length == 0)
+            // Set up the process start info
+            patchprocess.StartInfo.FileName = programPath;
+            patchprocess.StartInfo.Arguments = "/C" + patchcommand; // /C tells cmd to run the command and then exit
+            patchprocess.StartInfo.RedirectStandardOutput = true; // Redirect output
+            patchprocess.StartInfo.RedirectStandardError = true;  // Redirect error
+            patchprocess.StartInfo.UseShellExecute = false;       // Required for redirection
+            try
+            {
+                // Start the process
+                patchprocess.Start();
+
+                // Read the output
+                string error = patchprocess.StandardError.ReadToEnd();
+                string output = patchprocess.StandardOutput.ReadToEnd();
+
+                // Wait for the process to finish
+                patchprocess.WaitForExit();
+
+                Console.WriteLine(output);
+                // Display any errors
+                if (!string.IsNullOrEmpty(error))
                 {
-                    System.Windows.Forms.MessageBox.Show("No metroid prime hunters ROM found in the /rom folder. Please add a ROM.", "No ROM Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    System.Windows.Forms.MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
+                patchprocess.Close();
+                FilePath.pathEntityFldr = AppDomain.CurrentDomain.BaseDirectory + @"unpacked_data\data\level\entities";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
+            }
+        }
 
-                string unpackcommand = AppDomain.CurrentDomain.BaseDirectory + @"tools\patchrom.bat";
-
-                // Set up the process start info
-                unpackprocess.StartInfo.FileName = programPath;
-                unpackprocess.StartInfo.Arguments = "/C" + unpackcommand; // /C tells cmd to run the command and then exit
-                unpackprocess.StartInfo.RedirectStandardOutput = true; // Redirect output
-                unpackprocess.StartInfo.RedirectStandardError = true;  // Redirect error
-                unpackprocess.StartInfo.UseShellExecute = false;       // Required for redirection
-                try
-                {
-                    // Start the process
-                    unpackprocess.Start();
-
-                    // Read the output
-                    string error = unpackprocess.StandardError.ReadToEnd();
-                    string output = unpackprocess.StandardOutput.ReadToEnd();
-
-                    // Wait for the process to finish
-                    unpackprocess.WaitForExit();
-
-                    Console.WriteLine(output);
-                    // Display any errors
-                    if (!string.IsNullOrEmpty(error))
+        public void RollItems()
+        {
+            //@@@@@@@@@@@@@@@@@@@@@@
+            //@place items randomly@
+            //@@@@@@@@@@@@@@@@@@@@@@
+            if (hasRolledItem == false)
+            {
+            randomnum = RandomNumberGenerator(3);
+            }
+            else
+            { randomnum++; }
+            switch (randomnum)
+            {
+                case 1:
+                    //place e-tank
+                    if (etankToPlace > 0)
                     {
-                        System.Windows.Forms.MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
+                        itemsToPlace--;
+                        etankToPlace--;
+                        RollLocation(4);
                     }
-                    unpackprocess.Close();
-                    FilePath.pathEntityFldr = AppDomain.CurrentDomain.BaseDirectory + @"unpacked_data\data\level\entities";
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    return false;
-                }
-            //}
-            //return true;
+                    else { hasRolledItem = true; }
+                    break;
+                case 2:
+                    //place missile expansion
+                    if (missilesToPlace > 0)
+                    {
+                        itemsToPlace--;
+                        missilesToPlace--;
+                        RollLocation(6);
+                    }
+                    else { hasRolledItem = true; }
+                    break;
+                case 3:
+                    //place UAE
+                    if (UAEToPlace > 0)
+                    {
+                        itemsToPlace--;
+                        UAEToPlace--;
+                        RollLocation(18);
+                    }
+                    else { hasRolledItem = true; }
+                    break;
+                default:
+                    randomnum = 0;
+                    break;
+            }
         }
 
         public void RollArtifacts()
         {
-            while (artifactsToPlace != 0)
-            {
-                hasRolled = false;
-                if (hasRolledItem == false)
-                {
-                    randomnum = RandomNumberGenerator(4);
-                }
-                else
-                { randomnum++; }
-                //place artifact
-                itemsToPlace--;
-                artifactsToPlace--;
-                RollLocation(19);
-            }
-            RollItems();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@places artifacts in order@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //TODO make artifact generation random
+            itemsToPlace--;
+            artifactsToPlace--;
+            RollLocation(19);
         }
 
         public void RollBeams()
         {
-            int ran = 0;
-            while (beamsToPlace > 0)
+            //@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Chooses a beam to place@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@
+            if (hasRolledBeam == false)
             {
-                if (rollingBeams != true)
+                ran = RandomNumberGenerator(6);
+                if (beamsToPlace == 5 && MinimalLogicCheckBox.IsChecked != true)
                 {
-                    rollingBeams = true;
+                    LocationExclude();
                 }
-                hasRolled = false;
-                if (hasRolledBeam == false)
-                {
-                    ran = RandomNumberGenerator(6);
-                    if (beamsToPlace == 5 && MinimalLogicCheckBox.IsChecked != true)
+            }
+            else
+            { ran++; }
+            switch (ran)
+            {
+                case 1:
+                    //voltdriver
+                    //This is here because with both of these tricks enabled voltdriver and shockcoil aren't required. If the first item is voltdriver or shockcoil and then the second is the other one then we reroll
+                    if (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)
                     {
-                        LocationExclude();
-                    }
-                }
-                else
-                { ran++; }
-                switch (ran)
-                {
-                    case 1:
-                        //voltdriver
-                        if (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)
+                        if (beamToPlace[6] == 1 && beamsToPlace == 5)
                         {
-                            if (beamToPlace[6] == 1 && beamsToPlace == 5)
-                            {
-                                hasRolledBeam = true;
-                            }
-                            else if (beamToPlace[1] != 1)
-                            {
-                                RollLocation(5);
-                                beamToPlace[1] = 1;
-                                beamsToPlace--;
-                                if (MinimalLogicCheckBox.IsChecked != true)
-                                {
-                                    ExcludePlanets(ran, location);
-                                }
-                            }
+                            hasRolledBeam = true;
                         }
                         else if (beamToPlace[1] != 1)
                         {
@@ -596,82 +600,83 @@ namespace MPHrandomizer
                                 ExcludePlanets(ran, location);
                             }
                         }
-                        else { hasRolledBeam = true; }
-                        break;
-                    case 2:
-                        //battlehammer
-                        if (beamToPlace[2] != 1)
+                    }
+                    else if (beamToPlace[1] != 1)
+                    {
+                        RollLocation(5);
+                        beamToPlace[1] = 1;
+                        beamsToPlace--;
+                        if (MinimalLogicCheckBox.IsChecked != true)
                         {
-                            RollLocation(7);
-                            beamToPlace[2] = 1;
-                            beamsToPlace--;
-                            if (MinimalLogicCheckBox.IsChecked != true)
-                            {
-                                ExcludePlanets(ran, location);
-                            }
+                            ExcludePlanets(ran, location);
                         }
-                        else { hasRolledBeam = true; }
-                        break;
-                case 3:
-                        //imperialist
-                        if (beamToPlace[3] != 1)
+                    }
+                    else { hasRolledBeam = true; }
+                    break;
+                case 2:
+                    //battlehammer
+                    if (beamToPlace[2] != 1)
+                    {
+                        RollLocation(7);
+                        beamToPlace[2] = 1;
+                        beamsToPlace--;
+                        if (MinimalLogicCheckBox.IsChecked != true)
                         {
-                            RollLocation(8);
-                            beamToPlace[3] = 1;
-                            beamsToPlace--;
-                            if (MinimalLogicCheckBox.IsChecked != true)
-                            {
-                                ExcludePlanets(ran, location);
-                            }
+                            ExcludePlanets(ran, location);
                         }
-                        else { hasRolledBeam = true; }
-                        break;
-                case 4:
-                        //judicator
-                        if (beamToPlace[4] != 1)
+                    }
+                    else { hasRolledBeam = true; }
+                    break;
+            case 3:
+                    //imperialist
+                    if (beamToPlace[3] != 1)
+                    {
+                        RollLocation(8);
+                        beamToPlace[3] = 1;
+                        beamsToPlace--;
+                        if (MinimalLogicCheckBox.IsChecked != true)
                         {
-                            RollLocation(9);
-                            beamToPlace[4] = 1;
-                            beamsToPlace--;
-                            if (MinimalLogicCheckBox.IsChecked != true)
-                            {
-                                ExcludePlanets(ran, location);
-                            }
+                            ExcludePlanets(ran, location);
                         }
-                        else { hasRolledBeam = true; }
-                        break;
-                case 5:
-                        //magmaul
-                        if (beamToPlace[5] != 1)
+                    }
+                    else { hasRolledBeam = true; }
+                    break;
+            case 4:
+                    //judicator
+                    if (beamToPlace[4] != 1)
+                    {
+                        RollLocation(9);
+                        beamToPlace[4] = 1;
+                        beamsToPlace--;
+                        if (MinimalLogicCheckBox.IsChecked != true)
                         {
-                            RollLocation(10);
-                            beamToPlace[5] = 1;
-                            beamsToPlace--;
-                            if (MinimalLogicCheckBox.IsChecked != true)
-                            {
-                                ExcludePlanets(ran, location);
-                            }
+                            ExcludePlanets(ran, location);
                         }
-                        else { hasRolledBeam = true; }
-                        break;
-                case 6:
-                        //shockcoil
-                        if (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)
+                    }
+                    else { hasRolledBeam = true; }
+                    break;
+            case 5:
+                    //magmaul
+                    if (beamToPlace[5] != 1)
+                    {
+                        RollLocation(10);
+                        beamToPlace[5] = 1;
+                        beamsToPlace--;
+                        if (MinimalLogicCheckBox.IsChecked != true)
                         {
-                            if (beamToPlace[1] == 1 && beamsToPlace == 5)
-                            {
-                                hasRolledBeam = true;
-                            }
-                            else if (beamToPlace[6] != 1)
-                            {
-                                RollLocation(11);
-                                beamToPlace[6] = 1;
-                                beamsToPlace--;
-                                if (MinimalLogicCheckBox.IsChecked != true)
-                                {
-                                    ExcludePlanets(ran, location);
-                                }
-                            }
+                            ExcludePlanets(ran, location);
+                        }
+                    }
+                    else { hasRolledBeam = true; }
+                    break;
+            case 6:
+                    //shockcoil
+                    //This is here because with both of these tricks enabled voltdriver and shockcoil aren't required. If the first item is voltdriver or shockcoil and then the second is the other one then we reroll
+                    if (newarrivaltrickCheckBox.IsChecked == true && DeepCAtrickCheckBox.IsChecked == true)
+                    {
+                        if (beamToPlace[1] == 1 && beamsToPlace == 5)
+                        {
+                            hasRolledBeam = true;
                         }
                         else if (beamToPlace[6] != 1)
                         {
@@ -683,26 +688,33 @@ namespace MPHrandomizer
                                 ExcludePlanets(ran, location);
                             }
                         }
-                        else{ hasRolledBeam = true; }
-                        break;
-                    default:
-                        ran = 0;
-                        break;
-                }
-            }
-            if (beamsToPlace == 0)
-            {
-                if (MinimalLogicCheckBox.IsChecked != true)
-                {
-                    FixExclusions();
-                }
-                rollingBeams = false;
-                RollArtifacts();
+                    }
+                    else if (beamToPlace[6] != 1)
+                    {
+                        RollLocation(11);
+                        beamToPlace[6] = 1;
+                        beamsToPlace--;
+                        if (MinimalLogicCheckBox.IsChecked != true)
+                        {
+                            ExcludePlanets(ran, location);
+                        }
+                    }
+                    else{ hasRolledBeam = true; }
+                    break;
+                default:
+                    ran = 0;
+                    break;
             }
         }
 
         public void RollLocation(int item)
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Finds a location for whichever item we are placing@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            hasRolled = false;
+            itemplaced = false;
+            RollingLocations:
             if (hasRolled == false)
             {
                 location = RandomNumberGenerator(58);
@@ -711,6 +723,7 @@ namespace MPHrandomizer
                     location = 5; //this should make high ground always get an artifact in the artifact location.
                 } //it's just here because I haven't done the trigger thing yet. pretty ghetto fix
                 locationRollCounter = 0;
+                hasRolled = true;
             }
             else
             {
@@ -737,11 +750,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 2:
                     //A Echo Hall E tank
@@ -749,11 +757,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 3:
@@ -763,11 +766,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 4:
                     //A High Ground Missile
@@ -775,11 +773,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 5:
@@ -789,11 +782,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 6:
                     //A Elder Passage
@@ -801,11 +789,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 7:
@@ -815,11 +798,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 8:
                     //A Crash Site
@@ -827,11 +805,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 9:
@@ -841,11 +814,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 10:
                     //A Council Chamber E tank
@@ -853,11 +821,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 11:
@@ -867,11 +830,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 12:
                     //A Council Chamber Magmaul
@@ -879,11 +837,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 13:
@@ -893,11 +846,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 14:
                     //A Piston Cave
@@ -905,11 +853,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 15:
@@ -919,11 +862,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 16:
                     //CA Data Shrine 01 Artifact
@@ -931,11 +869,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 17:
@@ -945,11 +878,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 18:
                     //CA Data Shrine 02 Volt Driver
@@ -957,11 +885,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 19:
@@ -971,11 +894,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 20:
                     //CA Data Shrine 02 UAE
@@ -983,11 +901,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 21:
@@ -997,11 +910,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 22:
                     //CA Synergy Core
@@ -1009,11 +917,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 23:
@@ -1023,11 +926,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 24:
                     //CA Docking Bay Artifact
@@ -1035,11 +933,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 25:
@@ -1049,11 +942,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 26:
                     //CA Incubation Vault 01
@@ -1061,11 +949,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 27:
@@ -1075,11 +958,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 28:
                     //CA Incubation Vault 03
@@ -1087,11 +965,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 29:
@@ -1101,11 +974,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 30:
                     //CA New Arrival Registration E tank
@@ -1113,11 +981,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 31:
@@ -1127,11 +990,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 32:
                     //VDO Weapons Complex Artifact 2
@@ -1139,11 +997,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 33:
@@ -1155,11 +1008,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 34:
                     //VDO Cortex CPU Missile
@@ -1167,11 +1015,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 35:
@@ -1181,11 +1024,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 36:
                     //VDO Compression Chamber UAE
@@ -1193,11 +1031,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 37:
@@ -1207,11 +1040,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 38:
                     //VDO Stasis Bunker Artifact 2
@@ -1219,11 +1047,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 39:
@@ -1233,11 +1056,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 40:
                     //VDO Fuel Stack Artifact
@@ -1245,11 +1063,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 41:
@@ -1259,11 +1072,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 42:
                     //Arc Sic Transit E tank
@@ -1271,11 +1079,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 43:
@@ -1285,11 +1088,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 44:
                     //Arc Ice Hive Artifact
@@ -1297,11 +1095,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 45:
@@ -1311,11 +1104,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 46:
                     //Arc Ice Hive UAE 1
@@ -1323,11 +1111,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 47:
@@ -1337,11 +1120,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 48:
                     //Arc Ice Hive UAE 2
@@ -1349,11 +1127,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 49:
@@ -1363,11 +1136,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 50:
                     //Arc Frost Labyrinth E tank
@@ -1375,11 +1143,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 51:
@@ -1389,11 +1152,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 52:
                     //Arc Fault Line Artifact
@@ -1401,11 +1159,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 53:
@@ -1415,11 +1168,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 54:
                     //Arc Sanctorus UAE
@@ -1427,11 +1175,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 55:
@@ -1441,11 +1184,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 56:
                     //Arc Subterranean Artifact
@@ -1454,11 +1192,6 @@ namespace MPHrandomizer
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
                     }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
-                    }
                     break;
                 case 57:
                     //Arc Subterranean Missile
@@ -1466,11 +1199,6 @@ namespace MPHrandomizer
                     {
                         locationHasItem[location] = 1;
                         PlaceItem(item, location);
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 case 58:
@@ -1482,28 +1210,23 @@ namespace MPHrandomizer
                             locationHasItem[location] = 1;
                             PlaceItem(item, location);
                         }
-                        else
-                        {
-                            hasRolled = true;
-                            RollLocation(item);
-                        }
-                    }
-                    else
-                    {
-                        hasRolled = true;
-                        RollLocation(item);
                     }
                     break;
                 default:
                     location = 0;
-                    RollLocation(item);
+                    goto RollingLocations;
                     break;
             }
+            if (itemplaced == false)
+            goto RollingLocations;
         }
         
 
         public int RandomNumberGenerator(int maxnum)
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Gives us a random number between 1 and maxnum@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             Random rnd = new Random(seed);
             int ran = rnd.Next(1, maxnum);
             seed = rnd.Next();
@@ -1512,13 +1235,13 @@ namespace MPHrandomizer
 
         public void PlaceItem(int item, int location)
         {
-            //Location name, File name, Offset, Enabled, HasBase, NotifyEntityId, CollectedMessage, Message2Target, Message2, Message3Target, Message3
-            //{ "ASubterraneanMissile", new EntityLocation("\\Unit4_RM2_Ent.bin", 7804, 0x01, 0x01, 0, 0, 0, 0, 0, 0)},
             string spoilerItem = "";
             string fullPath = FilePath.pathEntityFldr + EntityLocationDict[location].FileName;
             string spoilerLogPath = System.Windows.Forms.Application.StartupPath + "\\SpoilerLog.txt";
             switch (item)
-            {
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            {   //@Writes the location and item name in the spoiler log@
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 //TODO add cases for all the artifacts
 
                 //EnergyTank
@@ -1561,6 +1284,7 @@ namespace MPHrandomizer
                     spoilerItem = EntityLocationDict[location].LocationName + ": Artifact" + artifactID + artifactModel;
                     break;
             }
+            //ignoring whether or not the spoiler log check box is checked for now
             //if (spoiler_chkbox.IsChecked ?? true)
             //{
             using (StreamWriter spoilerLog = new StreamWriter(spoilerLogPath, true))
@@ -1568,6 +1292,9 @@ namespace MPHrandomizer
                 spoilerLog.WriteLine(spoilerItem);
             }
             //}
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Writes the entity data to the entity files@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //these two lines set up the writing
             FileStream ws = new FileStream(fullPath, FileMode.Open, FileAccess.Write);
             StreamWriter writeStream = new StreamWriter(ws);
@@ -1680,10 +1407,14 @@ namespace MPHrandomizer
                 linkedEntity[0] = 0xFF;
                 linkedEntity[1] = 0xFF;
             }
+            itemplaced = true;
         }
 
         public void LocationExclude()
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@Locks locations that do not require a beam to get to@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             if (locationHasItem[1] != 1)
             {
                 locationHasItem[1] = 1;
@@ -1812,6 +1543,9 @@ namespace MPHrandomizer
 
         public void ExcludePlanets(int beam, int location)
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@If a planet has two beams on it then we lock all of the planet's locations to keep beams spread out@
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             if (location >= 1 && location <= 14)
             {
                 planetHasItems[1]++;
@@ -1907,6 +1641,10 @@ namespace MPHrandomizer
 
         public void FixExclusions()
         {
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //@after placing all beams set all locations back to an empty state and then fills in where the beams are@
+            //@to fix us locking locations with excludeplanets and locationexclude                                   @
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             for (int i = 0; i <= 58; i++)
             {
                 locationHasItem[i] = 0;
